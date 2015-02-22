@@ -18,7 +18,7 @@ public:
 	int getY();
 
 	// makeFrame returns the unique index of the frame
-	int makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY);
+	int makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance);
 
 	// addFrameToSequence returns the number of frames in the sequence after the add
 	int addFrameToSequence(std::string seqName, int frameIndex);
@@ -43,6 +43,7 @@ private:
 		int h;
 		int offsetX;
 		int offsetY;
+		int advance;
 		SDL_Texture* texture;
 	};
 	std::vector<frame> frames;

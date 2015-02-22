@@ -66,15 +66,13 @@ Sprite::Sprite(std::string file, SDL_Renderer* ren)
 					param_size = 4;
 				}
 				if (str_params.size() == 6)
-				{
-					params[4] = std::stoi(str_params[4]);
-					params[5] = std::stoi(str_params[5]);
-					param_size = 4;
-				}
+					param_size = 6;
 				for (int i = 0; i < param_size; ++i)
 					params[i] = std::stoi(str_params[i]);
 				for (int i = 0; i < params[6]; ++i)
-					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5]));
+					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5], 1));
+				if (params[6] <= 0)
+					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5], 0));
 			}
 		}
 	}
@@ -112,9 +110,9 @@ int Sprite::getY()
 	return currY;
 }
 
-int Sprite::makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY)
+int Sprite::makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance)
 {
-	frame f = { x, y, w, h, offX, offY, texture };
+	frame f = { x, y, w, h, offX, offY, advance, texture };
 	frames.push_back(f);
 	return frames.size() - 1;
 }
@@ -140,7 +138,8 @@ void Sprite::show(std::string sequence)
 		oldseq = sequence;
 		sequenceIndex = 0;
 	}
-	frame f = frames[sequenceList[sequence][++sequenceIndex % sequenceList[sequence].size()]];
+	frame f = frames[sequenceList[sequence][sequenceIndex % sequenceList[sequence].size()]];
+	sequenceIndex += f.advance;
 	SDL_Rect src = { f.x, f.y, f.w, f.h };
 	SDL_Rect dst = { currX - f.offsetX, currY - f.offsetY, f.w, f.h };
 	SDL_RenderCopy(renderer, f.texture, &src, &dst);

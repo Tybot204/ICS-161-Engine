@@ -20,30 +20,32 @@ f=y01uPOi.png
 / A colon (:) is used to specify a sequence name, it is possible to
 / reuse a sequence name in order add more frames to that sequence
 / For example, ":walk up" will make all subsequent frames map to the "walk up" sequence
-/ notice how the colon is not included in the sequence name
+/ Notice how the colon is not included in the sequence name
 
 :walk up
 
 / The frame format is as follows:
-/ X, Y, WIDTH, HEIGHT (optional), X OFFSET, Y OFFSET, DURATION OR LENGTH
+/ The parameters in square brackets are optional
+/ X, Y, WIDTH, HEIGHT, [X OFFSET, Y OFFSET], [DURATION OR LENGTH]
 / X OFFSET and Y OFFSET are used to render the frame from a point other than it's center
 / For example, an X OFFSET of WIDTH/2 and a Y OFFSET of HEIGHT/2 will render the frame at its center
 
 / X   Y   W   H OFFX OFFY LEN
-  0 , 0, 32, 64, 100, 100, 30
-             
-/ X   Y   W   H  LEN
- 32 , 0, 32, 64, 3
- 64 , 0, 32, 64, 3
- 96 , 0, 32, 64, 3
-128 , 0, 32, 64, 3
-160 , 0, 32, 64, 3
-192 , 0, 32, 64, 3
-224 , 0, 32, 64, 3
+  0 , 0, 32, 64, 16, 32, 30
+ 32 , 0, 32, 64, 16, 32,  3
+ 64 , 0, 32, 64, 16, 32,  3
+ 96 , 0, 32, 64, 16, 32,  3
+128 , 0, 32, 64, 16, 32,  3
+160 , 0, 32, 64, 16, 32,  3
+192 , 0, 32, 64, 16, 32,  3
+
+/ A LEN of 0 and lesser means that the frame lasts forever
+224 , 0, 32, 64, 16, 32, 0
                   
-                  / Leading and trailing whitespaces do not affect the parsing
+                  / Leading and trailing whitespaces are allowed
      :walk down
 
+/ As stated before, it is possible to change the file at any time
 f=Untitled.png
 
 0,192,32,64,3
