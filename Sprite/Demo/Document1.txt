@@ -1,0 +1,3 @@
+:background
+f=Untitled.png
+0,0,640,480
