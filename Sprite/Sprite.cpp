@@ -58,6 +58,11 @@ Sprite::Sprite(std::string file, SDL_Renderer* ren)
 				break;
 			default:
 				str_params = split_string(line, ",");
+				if (str_params.size() == 1)
+				{
+					addFrameToSequence(sequence, makeFrame(NULL, 0, 0, 0, 0, 0, 0, -std::abs(std::stoi(str_params[0])) + 1));
+					break;
+				}
 				if (str_params.size() == 4)
 					param_size = 4;
 				if (str_params.size() == 5)
@@ -136,11 +141,10 @@ void Sprite::show(std::string sequence)
 	if (sequence != oldseq)
 	{
 		oldseq = sequence;
-		sequenceIndex = 0;
+		sequenceIndex = -1;
 	}
-	frame f = frames[sequenceList[sequence][sequenceIndex % sequenceList[sequence].size()]];
-	sequenceIndex += f.advance;
-	SDL_Rect src = { f.x, f.y, f.w, f.h };
-	SDL_Rect dst = { currX - f.offsetX, currY - f.offsetY, f.w, f.h };
-	SDL_RenderCopy(renderer, f.texture, &src, &dst);
+	frame f = frames[sequenceList[sequence][(sequenceIndex + 1) % sequenceList[sequence].size()]];
+	if ((sequenceIndex += f.advance) < 0)
+		sequenceIndex = 0;
+	show(sequenceList[sequence][sequenceIndex % sequenceList[sequence].size()]);
 }

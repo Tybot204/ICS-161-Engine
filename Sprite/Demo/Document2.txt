@@ -39,7 +39,7 @@ f=y01uPOi.png
 160 , 0, 32, 64, 16, 32,  3
 192 , 0, 32, 64, 16, 32,  3
 
-/ A LEN of 0 and lesser means that the frame lasts forever
+/ A LEN of 0 means that the frame lasts forever
 224 , 0, 32, 64, 16, 32, 0
                   
                   / Leading and trailing whitespaces are allowed
@@ -60,6 +60,16 @@ f=y01uPOi.png
 160,192,32,64,3
 192,192,32,64,3
 224,192,32,64,3
+
+/ A number by itself can be used to loop a smaller portion of the sequence
+/ 
+/ For example, a run sequence might have some startup frames before
+/ the actual loop starts
+/
+/ The number that is put here tells the length of the loop
+/ A value of 0 has no effect
+/ A value of 1 has the same effect as creating a frame with infinite length
+12
 
 :walk left
 
