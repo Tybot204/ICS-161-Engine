@@ -15,7 +15,10 @@
 / All subsequent frames will use this file
 / It is possible to change the file by saying f= again
 
-f=y01uPOi.png
+/ There cannot be a space between the = and the filename as it is legal to have
+/ leading spaces in filenames
+
+f=res\y01uPOi.png
 
 / A colon (:) is used to specify a sequence name, it is possible to
 / reuse a sequence name in order add more frames to that sequence
@@ -39,14 +42,14 @@ f=y01uPOi.png
 160 , 0, 32, 64, 16, 32,  3
 192 , 0, 32, 64, 16, 32,  3
 
-/ A LEN of 0 means that the frame lasts forever
+/ A LEN of 0 or lesser means that the frame lasts forever
 224 , 0, 32, 64, 16, 32, 0
                   
                   / Leading and trailing whitespaces are allowed
      :walk down
 
 / As stated before, it is possible to change the file at any time
-f=Untitled.png
+f=res\Untitled.png
 
 0,192,32,64,3
 32,192,32,64,3
@@ -54,7 +57,7 @@ f=Untitled.png
 96,192,32,64,3
 
 
-f=y01uPOi.png
+f=res\y01uPOi.png
 
 128,192,32,64,3
 160,192,32,64,3
@@ -68,7 +71,7 @@ f=y01uPOi.png
 /
 / The number that is put here tells the length of the loop
 / A value of 0 has no effect
-/ A value of 1 has the same effect as creating a frame with infinite length
+/ A value of 1 or lesser has the same effect as creating a frame with infinite length
 12
 
 :walk left

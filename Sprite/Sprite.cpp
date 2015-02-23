@@ -4,8 +4,10 @@
 #include <algorithm>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "Sprite.h"
 #include "SDL_image.h"
+#include <stdexcept>
 
 namespace
 {
@@ -30,6 +32,8 @@ Sprite::Sprite(std::string file, SDL_Renderer* ren)
 	IMG_Init(IMG_INIT_PNG);
 	std::ifstream input;
 	input.open(file);
+	if (input.fail())
+		throw std::exception("Could not open the file");
 	std::string line, sequence, root;
 	if (file.rfind("\\") != std::string::npos)
 		root = file.substr(0, file.rfind("\\") + 1);
@@ -60,7 +64,8 @@ Sprite::Sprite(std::string file, SDL_Renderer* ren)
 				str_params = split_string(line, ",");
 				if (str_params.size() == 1)
 				{
-					addFrameToSequence(sequence, makeFrame(NULL, 0, 0, 0, 0, 0, 0, -std::abs(std::stoi(str_params[0])) + 1));
+					int siz = -std::stoi(str_params[0]);
+					addFrameToSequence(sequence, makeFrame(NULL, 0, 0, 0, 0, 0, 0, siz >= 0 ? -1 : siz));
 					break;
 				}
 				if (str_params.size() == 4)
@@ -81,6 +86,7 @@ Sprite::Sprite(std::string file, SDL_Renderer* ren)
 			}
 		}
 	}
+	input.close();
 }
 
 Sprite::~Sprite(void)
@@ -141,10 +147,14 @@ void Sprite::show(std::string sequence)
 	if (sequence != oldseq)
 	{
 		oldseq = sequence;
-		sequenceIndex = -1;
-	}
-	frame f = frames[sequenceList[sequence][(sequenceIndex + 1) % sequenceList[sequence].size()]];
-	if ((sequenceIndex += f.advance) < 0)
 		sequenceIndex = 0;
-	show(sequenceList[sequence][sequenceIndex % sequenceList[sequence].size()]);
+	}
+	int frame_num = sequenceList[sequence][sequenceIndex % sequenceList[sequence].size()];
+	if (frames[frame_num].texture == NULL)
+	{
+		sequenceIndex += frames[frame_num].advance;
+		frame_num = sequenceList[sequence][sequenceIndex % sequenceList[sequence].size()];
+	}
+	show(frame_num);
+	sequenceIndex += frames[frame_num].advance;
 }
