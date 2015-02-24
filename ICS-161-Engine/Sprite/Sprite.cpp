@@ -62,7 +62,6 @@ Sprite::Sprite(int currX, int currY, std::string file, SDL_Renderer* ren)
 		std::getline(input, line);
 		if (line.find_first_not_of(' ') != std::string::npos)
 		{
-			std::cout << line << std::endl;
 			params[6] = 1;
 			int param_size = 7;
 			line = line.substr(line.find_first_not_of(" \t\r\n\v"));
