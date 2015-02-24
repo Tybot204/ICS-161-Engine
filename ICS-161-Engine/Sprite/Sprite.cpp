@@ -30,6 +30,12 @@ namespace
 		int last = s.find_last_not_of(delim);
 		return s.substr(first, (last - first + 1));
 	}
+	std::string get_quoted(const std::string& s)
+	{
+		if (s.find_first_of('"') == std::string::npos)
+			return s;
+		return s.substr(s.find_first_of('"') + 1, s.find_last_of('"') - s.find_first_of('"') - 1);
+	}
 }
 
 Sprite::Sprite(int currX, int currY, std::string file, SDL_Renderer* ren)
@@ -68,7 +74,7 @@ Sprite::Sprite(int currX, int currY, std::string file, SDL_Renderer* ren)
 				break;
 			case 'F':
 			case 'f':
-				tex = IMG_LoadTexture(ren, (root + strip(line.substr(line.find('=') + 1), "\"\r \n\t\v")).c_str());
+				tex = IMG_LoadTexture(ren, (root + get_quoted(strip(line.substr(line.find('=') + 1), " \r\n\t\v"))).c_str());
 				break;
 			case ':':
 				sequence = std::make_pair(strip(line.substr(1), " \r\v\n\t"), strip(line.substr(1), " \r\v\n\t"));
