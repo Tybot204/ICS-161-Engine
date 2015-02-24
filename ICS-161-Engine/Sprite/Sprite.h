@@ -8,7 +8,7 @@
 class Sprite
 {
 public:
-	Sprite(std::string file, SDL_Renderer* ren);
+	Sprite(int currX, int currY, std::string file, SDL_Renderer* ren);
 	~Sprite(void);
 
 	void setPos(int x, int y);
@@ -21,7 +21,7 @@ public:
 	int makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance);
 
 	// addFrameToSequence returns the number of frames in the sequence after the add
-	int addFrameToSequence(std::string seqName, int frameIndex);
+	int addFrameToSequence(std::pair<std::string, std::string>, int frameIndex);
 
 	// show(int) renders the frame with the specified frameIndex
 	void show(int frameIndex);
@@ -32,7 +32,8 @@ public:
 // The private part of the class is given as a hint or suggestion.
 // In homework 3 you can make any modifications you want to the class's innards.
 private:
-	int currX, currY;		// the coordinates of the sprite's upper left hand corner relative to the window
+
+	int currX, currY;		// the coordinates of the sprite relative to the window
 	SDL_Renderer* renderer;
 
 	struct frame
@@ -41,17 +42,17 @@ private:
 		int y;
 		int w;
 		int h;
-		int offsetX;
-		int offsetY;
+		int offsetX;  // TO THE COLLISION GROUP
+		int offsetY;  // currX - offsetX, currY - offsetY will be the upper left corner
 		int advance;
 		SDL_Texture* texture;
 	};
 	std::vector<frame> frames;
 
-	std::string oldseq;
-	std::map<std::string, std::vector<int>> sequenceList;
-	int sequenceIndex;		// shared by all sequences; it would be better to have
-							// one for each sequence
+	std::pair<std::string, std::string> currentSequence;
+	std::map<std::pair<std::string, std::string>, std::vector<int>> sequenceList;
+	int sequenceIndex;
 
+	frame getCurrentFrame(); // For the collision detection group
 
 };

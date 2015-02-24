@@ -71,80 +71,90 @@ int main(int argc, char **argv){
 
 	//const std::string resPath = getResourcePath("SpriteDemo");
 	const std::string resPath = "Demo\\";
-	// background is from "iceland1.jpg" at theadventurousmailbox.com
-	//SDL_Texture *background = loadTexture(resPath + "Untitled.png", renderer);
-	//Make sure all is well
-	//if (background == nullptr){
-	//	cleanup(background, renderer, window);
-	//	IMG_Quit();
-	//	SDL_Quit();
-	//	return 1;
-	//}
 
-	Sprite* spriteBG = new Sprite(resPath + "Document1.txt", renderer);
-	spriteBG->setPos(0, 0);
-	//int bgFrame = spriteBG->makeFrame(background, 0, 0);
-
-	//SDL_Texture *spritesheet = loadTexture(resPath + "y01uPOi.png", renderer);
-	// spritesheet is from "y01uPOi.png" at http://forums.rpgmakerweb.com/index.php?/topic/19159-when-making-sprite-sheets-how-does-rpg-know-which-one-to-start-with/
-	//if (spritesheet == nullptr){
-	//	cleanup(spritesheet, renderer, window);
-	//	IMG_Quit();
-	//	SDL_Quit();
-	//	return 1;
-	//}
-
-	Sprite* sprite1 = new Sprite(resPath + "Document2.txt", renderer);
-	//for (int i = 0; i < 9; ++i)
-	//{
-	//	for (int j = 0; j < 3; ++j)
-	//	{
-	//		sprite1->addFrameToSequence("walk up", sprite1->makeFrame(spritesheet, i * 32, 0));
-	//		sprite1->addFrameToSequence("walk right", sprite1->makeFrame(spritesheet, i * 32, 64));
-	//		sprite1->addFrameToSequence("walk left", sprite1->makeFrame(spritesheet, i * 32, 128));
-	//		sprite1->addFrameToSequence("walk down", sprite1->makeFrame(spritesheet, i * 32, 192));
-	//	}
-	//}
+	Sprite* spriteBG = new Sprite(0, 0, resPath + "Document1.txt", renderer);
 
 	int x = SCREEN_WIDTH / 2;
 	int y = SCREEN_HEIGHT / 2;
-	sprite1->setPos(x, y);
+
+	Sprite* sprite1 = new Sprite(x, y, resPath + "readme.txt", renderer);
+	Sprite* sprite2 = new Sprite(x, y, resPath + "dot.txt", renderer);
 
 	SDL_Event e;
-	bool quit = false;
+	bool quit = false, left = false, right = false, up = false, down = false;
 	std::string spriteDirection = "walk right";
 	while (!quit){
 		while (SDL_PollEvent(&e)){
 			if (e.type == SDL_QUIT){
 				quit = true;
 			}
-			if (e.type == SDL_KEYDOWN){
+			if (e.type == SDL_KEYDOWN) {
 				if (e.key.keysym.sym == SDLK_RIGHT)
 				{
-					sprite1->movex(1);
-					spriteDirection = "walk right";
+					right = true;
 				}
 				else if (e.key.keysym.sym == SDLK_LEFT)
 				{
-					sprite1->movex(-1);
-					spriteDirection = "walk left";
+					left = true;
 				}
 				else if (e.key.keysym.sym == SDLK_UP)
 				{
-					sprite1->movey(-1);
-					spriteDirection = "walk up";
+					up = true;
 				}
 				else if (e.key.keysym.sym == SDLK_DOWN)
 				{
-					sprite1->movey(1);
-					spriteDirection = "walk down";
+					down = true;
+				}
+			}
+
+			if (e.type == SDL_KEYUP) {
+				switch (e.key.keysym.sym)
+				{
+				case SDLK_RIGHT:
+					right = false;
+					break;
+				case SDLK_LEFT:
+					left = false;
+					break;
+				case SDLK_UP:
+					up = false;
+					break;
+				case SDLK_DOWN:
+					down = false;
+					break;
 				}
 			}
 		}
+		if (right)
+		{
+			sprite2->movex(2);
+			sprite1->movex(2);
+			spriteDirection = "walk right";
+		}
+		if (left)
+		{
+			sprite2->movex(-2);
+			sprite1->movex(-2);
+			spriteDirection = "walk left";
+		}
+		if (down)
+		{
+			sprite2->movey(2);
+			sprite1->movey(2);
+			spriteDirection = "walk down";
+		}
+		if (up)
+		{
+			sprite2->movey(-2);
+			sprite1->movey(-2);
+			spriteDirection = "walk up";
+		}
+
 		//Render the scene
 		SDL_RenderClear(renderer);
 		spriteBG->show("background");
 		sprite1->show(spriteDirection);
+		sprite2->show("dot");
 		SDL_RenderPresent(renderer);
 	}
 
@@ -153,6 +163,9 @@ int main(int argc, char **argv){
 	SDL_Quit();
 
 	SDL_Quit();
+	delete spriteBG;
+	delete sprite1;
+	delete sprite2;
 
 	return 0;
 }
