@@ -9,6 +9,7 @@
 
 // Custom engine header files
 #include "Sprite/Sprite.h"
+#include "Json/include/json/json.h"
 
 // Engine-wide constants
 const int SCREEN_WIDTH = 640;
