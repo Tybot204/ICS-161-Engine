@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "SDL_image.h"
 #include <stdexcept>
+#include <iostream>
 
 namespace
 {
@@ -28,6 +29,8 @@ namespace
 	{
 		int first = s.find_first_not_of(delim);
 		int last = s.find_last_not_of(delim);
+		if (last == std::string::npos)
+			return "";
 		return s.substr(first, (last - first + 1));
 	}
 	std::string get_quoted(const std::string& s)
@@ -50,17 +53,17 @@ Sprite::Sprite(int currX, int currY, std::string file, SDL_Renderer* ren)
 	std::pair<std::string, std::string> sequence;
 	if (file.rfind("\\") != std::string::npos)
 		root = file.substr(0, file.rfind("\\") + 1);
-	else
-		root = "";
 	std::vector<std::string> str_params;
 	SDL_Texture* tex;
 	std::map<std::string, int> vars;
+	int params[7] = { 0, 0, 0, 0, 0, 0, 1 };
 	while (!input.eof())
 	{
 		std::getline(input, line);
 		if (line.find_first_not_of(' ') != std::string::npos)
 		{
-			int params[7] = { 0, 0, 0, 0, 0, 0, 1 };
+			std::cout << line << std::endl;
+			params[6] = 1;
 			int param_size = 7;
 			line = line.substr(line.find_first_not_of(" \t\r\n\v"));
 			switch (line[0])
@@ -91,17 +94,15 @@ Sprite::Sprite(int currX, int currY, std::string file, SDL_Renderer* ren)
 					addFrameToSequence(sequence, makeFrame(NULL, 0, 0, 0, 0, 0, 0, siz >= 0 ? -1 : siz));
 					break;
 				}
-				if (str_params.size() == 4)
-					param_size = 4;
-				if (str_params.size() == 5)
+				if (str_params.size() % 2 == 0)
+					param_size = str_params.size();
+				if (str_params.size() % 2 == 1)
 				{
-					params[6] = vars.count(str_params[4]) ? vars[str_params[4]] : std::stoi(str_params[4]);
-					param_size = 4;
+					param_size = str_params.size() - 1;
+					params[6] = vars.count(str_params[param_size]) ? vars[str_params[param_size]] : str_params[param_size] == "" ? 1 : std::stoi(str_params[param_size]);
 				}
-				if (str_params.size() == 6)
-					param_size = 6;
 				for (int i = 0; i < param_size; ++i)
-					params[i] = vars.count(str_params[i]) ? vars[str_params[i]] : std::stoi(str_params[i]);
+					params[i] = vars.count(str_params[i]) ? vars[str_params[i]] : str_params[i] == "" ? params[i] : std::stoi(str_params[i]);
 				for (int i = 0; i < params[6]; ++i)
 					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5], 1));
 				if (params[6] <= 0)
@@ -186,4 +187,12 @@ void Sprite::show(std::string sequence)
 Sprite::frame Sprite::getCurrentFrame()
 {
 	return frames[sequenceList[currentSequence][sequenceIndex]];
+}
+
+
+// PHYSICS AND COLLISION CODE GOES HERE
+void Sprite::update()
+{
+	movex(velocity.first);
+	movey(velocity.second);
 }

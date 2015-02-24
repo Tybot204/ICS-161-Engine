@@ -28,6 +28,7 @@ public:
 	// show(string) cycles through all frames in the specified sequence, one per call
 	void show(std::string sequence);
 
+	void update();
 
 // The private part of the class is given as a hint or suggestion.
 // In homework 3 you can make any modifications you want to the class's innards.
@@ -44,7 +45,7 @@ private:
 		int h;
 		int offsetX;  // TO THE COLLISION GROUP
 		int offsetY;  // currX - offsetX, currY - offsetY will be the upper left corner
-		int advance;
+		int advance;  // make sure to take into account velocities, so objects can't phase through each other
 		SDL_Texture* texture;
 	};
 	std::vector<frame> frames;
@@ -53,6 +54,7 @@ private:
 	std::map<std::pair<std::string, std::string>, std::vector<int>> sequenceList;
 	int sequenceIndex;
 
-	frame getCurrentFrame(); // For the collision detection group
-
+	frame getCurrentFrame(); // For the collision detection group and physics
+	std::pair<double, double> velocity;
+	std::pair<double, double> acceleration;
 };

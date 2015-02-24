@@ -38,18 +38,25 @@ f = "res\y01uPOi.png"
 
 / The frame format is as follows:
 / The parameters in square brackets are optional
-/ X, Y, WIDTH, HEIGHT, [X OFFSET, Y OFFSET], [DURATION OR LENGTH]
+/ X, Y, [WIDTH, HEIGHT, [X OFFSET, Y OFFSET]], [DURATION OR LENGTH]
+/ You must spcify a WIDTH and HEIGHT in order to specify an X OFFSET and Y OFFSET
+/ The default WIDTH and HEIGHT will be the last used
+/ The default X OFFSET and Y OFFSET will be the last used
+/ The default LEN will be 1
+/ You can leave options blank or leave them out entirely to use the default
 / X OFFSET and Y OFFSET are used to render the frame from a point other than it's center
 / For example, an X OFFSET of WIDTH/2 and a Y OFFSET of HEIGHT/2 will render the frame at its center
 
 / X    Y    W        H        OFFX       OFFY        LEN
    0,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,  30
-  32,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,   3
-  64,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,   3
-  96,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,   3
- 128,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,   3
- 160,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,   3
- 192,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,   3
+  32,   0,        ,         ,   WIDTH/2,   HEIGHT/2,   3
+/ X    Y    W        H        LEN
+  64,   0,   WIDTH,   HEIGHT,   3
+  96,   0,        ,         ,   3
+/ X    Y   LEN
+ 128,   0,   3
+ 160,   0,   3
+ 192,   0,   3
 
 / A LEN of 0 or lesser means that the frame lasts forever
  224,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,   0
@@ -61,16 +68,16 @@ f = "res\y01uPOi.png"
 f = res\Untitled.png
 
 0,192,WIDTH,HEIGHT,3
-32,192,WIDTH,HEIGHT,3
-64,192,WIDTH,HEIGHT,3
-96,192,WIDTH,HEIGHT,3
+32,192,3
+64,192,3
+96,192,3
 
 f = res\y01uPOi.png
 
-128,192,WIDTH,HEIGHT,3
-160,192,WIDTH,HEIGHT,3
-192,192,WIDTH,HEIGHT,3
-224,192,WIDTH,HEIGHT,3
+128,192,3
+160,192,3
+192,192,3
+224,192,3
 
 / A number by itself can be used to loop a smaller portion of the sequence
 / 
@@ -88,40 +95,94 @@ f = res\y01uPOi.png
 
 > walk up : walk right
 
-   0,   0,   WIDTH,   HEIGHT,   15,   30
-   0,   0,   WIDTH,   HEIGHT,   14,   28
-   0,   0,   WIDTH,   HEIGHT,   13,   26
-  32,   0,   WIDTH,   HEIGHT,   12,   24
-  32,   0,   WIDTH,   HEIGHT,   11,   22
-  64,   0,   WIDTH,   HEIGHT,   10,   20
-  64,   0,   WIDTH,   HEIGHT,    9,   18
-  96,   0,   WIDTH,   HEIGHT,    8,   16
-  96,   0,   WIDTH,   HEIGHT,    7,   14
- 128,   0,   WIDTH,   HEIGHT,    6,   12
- 128,   0,   WIDTH,   HEIGHT,    5,   10
- 160,   0,   WIDTH,   HEIGHT,    4,    8
- 160,   0,   WIDTH,   HEIGHT,    3,    6
- 192,   0,   WIDTH,   HEIGHT,    2,    4
- 192,   0,   WIDTH,   HEIGHT,    1,    2
+   0,   0,   ,   ,   15,   30
+   0,   0,   ,   ,   14,   28
+   0,   0,   ,   ,   13,   26
+  32,   0,   ,   ,   12,   24
+  32,   0,   ,   ,   11,   22
+  64,   0,   ,   ,   10,   20
+  64,   0,   ,   ,    9,   18
+  96,   0,   ,   ,    8,   16
+  96,   0,   ,   ,    7,   14
+ 128,   0,   ,   ,    6,   12
+ 128,   0,   ,   ,    5,   10
+ 160,   0,   ,   ,    4,    8
+ 160,   0,   ,   ,    3,    6
+ 192,   0,   ,   ,    2,    4
+ 192,   0,   ,   ,    1,    2
 
 : walk left
 
-	0,128,WIDTH,HEIGHT,3
-	32,128,WIDTH,HEIGHT,3
-	64,128,WIDTH,HEIGHT,3
-	96,128,WIDTH,HEIGHT,3
-	128,128,WIDTH,HEIGHT,3
-	160,128,WIDTH,HEIGHT,3
-	192,128,WIDTH,HEIGHT,3
-	224,128,WIDTH,HEIGHT,3
+0,128,,,0,0,3
+32,128,3
+64,128,3
+96,128,3
+128,128,3
+160,128,3
+192,128,3
+224,128,3
 
 : walk right
 
-0,64,WIDTH,HEIGHT,3
-32,64,WIDTH,HEIGHT,3
-64,64,WIDTH,HEIGHT,3
-96,64,WIDTH,HEIGHT,3
-128,64,WIDTH,HEIGHT,3
-160,64,WIDTH,HEIGHT,3
-192,64,WIDTH,HEIGHT,3
-224,64,WIDTH,HEIGHT,3
+0,64,3
+32,64,3
+64,64,3
+96,64,3
+128,64,3
+160,64,3
+192,64,3
+224,64,3
+
+> walk down : walk right
+
+   0,   0,   ,   ,   15,   30
+   0,   0,   ,   ,   14,   28
+   0,   0,   ,   ,   13,   26
+  32,   0,   ,   ,   12,   24
+  32,   0,   ,   ,   11,   22
+  64,   0,   ,   ,   10,   20
+  64,   0,   ,   ,    9,   18
+  96,   0,   ,   ,    8,   16
+  96,   0,   ,   ,    7,   14
+ 128,   0,   ,   ,    6,   12
+ 128,   0,   ,   ,    5,   10
+ 160,   0,   ,   ,    4,    8
+ 160,   0,   ,   ,    3,    6
+ 192,   0,   ,   ,    2,    4
+ 192,   0,   ,   ,    1,    2
+
+> walk down : walk left
+
+   0,   0,   ,   ,   15,   30
+   0,   0,   ,   ,   14,   28
+   0,   0,   ,   ,   13,   26
+  32,   0,   ,   ,   12,   24
+  32,   0,   ,   ,   11,   22
+  64,   0,   ,   ,   10,   20
+  64,   0,   ,   ,    9,   18
+  96,   0,   ,   ,    8,   16
+  96,   0,   ,   ,    7,   14
+ 128,   0,   ,   ,    6,   12
+ 128,   0,   ,   ,    5,   10
+ 160,   0,   ,   ,    4,    8
+ 160,   0,   ,   ,    3,    6
+ 192,   0,   ,   ,    2,    4
+ 192,   0,   ,   ,    1,    2
+
+> walk up : walk left
+
+   0,   0,   ,   ,   15,   30
+   0,   0,   ,   ,   14,   28
+   0,   0,   ,   ,   13,   26
+  32,   0,   ,   ,   12,   24
+  32,   0,   ,   ,   11,   22
+  64,   0,   ,   ,   10,   20
+  64,   0,   ,   ,    9,   18
+  96,   0,   ,   ,    8,   16
+  96,   0,   ,   ,    7,   14
+ 128,   0,   ,   ,    6,   12
+ 128,   0,   ,   ,    5,   10
+ 160,   0,   ,   ,    4,    8
+ 160,   0,   ,   ,    3,    6
+ 192,   0,   ,   ,    2,    4
+ 192,   0,   ,   ,    1,    2
