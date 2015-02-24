@@ -1,7 +1,7 @@
 / This is an example of how to use the sprite control file
 
 / In your code, you can create a Sprite by saying
-/ Sprite s = Sprite("this file", renderer);
+/ Sprite s = Sprite(initialX, initialY, "this file", renderer);
 
 / Slashes may be used for comments
 
@@ -24,7 +24,7 @@
 / All subsequent frames will use this file
 / It is possible to change the file by saying f= again
 
-/ Quotes are optional are are needed for files which start or end in whitespaces
+/ Quotes are optional but are required for files which start or end in whitespaces
 
 f = "res\y01uPOi.png"
 
@@ -65,7 +65,6 @@ f = res\Untitled.png
 64,192,WIDTH,HEIGHT,3
 96,192,WIDTH,HEIGHT,3
 
-
 f = res\y01uPOi.png
 
 128,192,WIDTH,HEIGHT,3
@@ -79,7 +78,6 @@ f = res\y01uPOi.png
 / the actual loop starts
 /
 / The number that is put here tells the length of the loop
-/ A value of 0 has no effect
 / A value of 1 or lesser has the same effect as creating a frame with infinite length
 12
 
