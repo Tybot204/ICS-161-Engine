@@ -8,7 +8,7 @@
 #include "Sprite.h"
 #include "SDL_image.h"
 #include <stdexcept>
-#include <iostream>
+#include <cmath>
 
 namespace
 {
@@ -25,6 +25,7 @@ namespace
 			result.push_back(s);
 		return result;
 	}
+
 	std::string strip(const std::string& s, const std::string& delim)
 	{
 		int first = s.find_first_not_of(delim);
@@ -33,18 +34,87 @@ namespace
 			return "";
 		return s.substr(first, (last - first + 1));
 	}
+
 	std::string get_quoted(const std::string& s)
 	{
 		if (s.find_first_of('"') == std::string::npos)
 			return s;
 		return s.substr(s.find_first_of('"') + 1, s.find_last_of('"') - s.find_first_of('"') - 1);
 	}
+
+	double perform_op(double a, double b, char op)
+	{
+		switch (op)
+		{
+		case '+':
+			return a + b;
+		case '-':
+			return a - b;
+		case '*':
+			return a * b;
+		case '/':
+			return a / b;
+		}
+		return 0;
+	}
+
+	double str_to_doub(const std::string& s, std::map<std::string, double>& vars)
+	{
+		return vars.count(s) ? vars[s] : std::stod(s);
+	}
+
+	double evaluate_expression(std::string s, std::map<std::string, double>& vars)
+	{
+		double accum = 0;
+		int pos = 0;
+		char op = '+';
+		std::string num;
+		while ((pos = s.find_first_of("/*+-")) != std::string::npos)
+		{
+			num = strip(s.substr(0, pos), " \r\t\v\n");
+			accum = perform_op(accum, str_to_doub(num, vars), op);
+			op = s[pos];
+			s = s.erase(0, pos + 1);
+		}
+		accum = perform_op(accum, str_to_doub(s, vars), op);
+		return accum;
+	}
+
+	double getVectorSize(const std::pair<double, double>& vector)
+	{
+		return std::sqrt(vector.first * vector.first + vector.second * vector.second);
+	}
+
+	double vectorToAngle(const std::pair<double, double>& vector)
+	{
+		return std::atan2(vector.second, vector.first);
+	}
+
+	double degToRad(double degrees)
+	{
+		return M_PI * degrees / 180;
+	}
+
+	double radToDeg(double radians)
+	{
+		return 180 * radians / M_PI;
+	}
+
+	std::pair<double, double> addVectors(const std::pair<double, double>& a, const std::pair<double, double>& b)
+	{
+		return std::make_pair(a.first + b.first, a.second + b.second);
+	}
+
+	std::pair<double, double> subVectors(const std::pair<double, double>& a, const std::pair<double, double>& b)
+	{
+		return std::make_pair(a.first - b.first, a.second - b.second);
+	}
 }
 
-Sprite::Sprite(int currX, int currY, std::string file, SDL_Renderer* ren)
-	: currX{ currX }, currY{ currY }, renderer{ ren }, sequenceIndex{ 0 }
+Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
+	: renderer{ ren }, sequenceIndex{ 0 }, position{ std::make_pair(currX, currY) }
 {
-	IMG_Init(IMG_INIT_PNG);
+	//IMG_Init(IMG_INIT_PNG); Not sure if SDL_IMG is already initialized
 	std::ifstream input;
 	input.open(file);
 	if (input.fail())
@@ -55,7 +125,7 @@ Sprite::Sprite(int currX, int currY, std::string file, SDL_Renderer* ren)
 		root = file.substr(0, file.rfind("\\") + 1);
 	std::vector<std::string> str_params;
 	SDL_Texture* tex;
-	std::map<std::string, int> vars;
+	std::map<std::string, double> vars;
 	int params[7] = { 0, 0, 0, 0, 0, 0, 1 };
 	while (!input.eof())
 	{
@@ -89,19 +159,15 @@ Sprite::Sprite(int currX, int currY, std::string file, SDL_Renderer* ren)
 					str_params[i] = strip(str_params[i], " \r\t\v\n");
 				if (str_params.size() == 1)
 				{
-					int siz = -std::stoi(str_params[0]);
+					int siz = (int)-evaluate_expression(str_params[0], vars);
 					addFrameToSequence(sequence, makeFrame(NULL, 0, 0, 0, 0, 0, 0, siz >= 0 ? -1 : siz));
 					break;
 				}
-				if (str_params.size() % 2 == 0)
-					param_size = str_params.size();
+				param_size = str_params.size() - str_params.size() % 2;
 				if (str_params.size() % 2 == 1)
-				{
-					param_size = str_params.size() - 1;
-					params[6] = vars.count(str_params[param_size]) ? vars[str_params[param_size]] : str_params[param_size] == "" ? 1 : std::stoi(str_params[param_size]);
-				}
+					params[6] = str_params[param_size].size() == 0 ? 1 : (int)evaluate_expression(str_params[param_size], vars);
 				for (int i = 0; i < param_size; ++i)
-					params[i] = vars.count(str_params[i]) ? vars[str_params[i]] : str_params[i] == "" ? params[i] : std::stoi(str_params[i]);
+					params[i] = str_params[i].size() == 0 ? params[i] : (int)evaluate_expression(str_params[i], vars);
 				for (int i = 0; i < params[6]; ++i)
 					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5], 1));
 				if (params[6] <= 0)
@@ -120,28 +186,17 @@ Sprite::~Sprite(void)
 
 void Sprite::setPos(int x, int y)
 {
-	currX = x;
-	currY = y;
+	position = std::make_pair(x, y);
 }
 
-void Sprite::movex(int delta)
+void Sprite::movex(double delta)
 {
-	currX += delta;
+	position.first += delta;
 }
 
-void Sprite::movey(int delta)
+void Sprite::movey(double delta)
 {
-	currY += delta;
-}
-
-int Sprite::getX()
-{
-	return currX;
-}
-
-int Sprite::getY()
-{
-	return currY;
+	position.second += delta;
 }
 
 int Sprite::makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance)
@@ -161,7 +216,7 @@ void Sprite::show(int frameIndex)
 {
 	frame f = frames[frameIndex];
 	SDL_Rect src = { f.x, f.y, f.w, f.h };
-	SDL_Rect dst = { currX - f.offsetX, currY - f.offsetY, f.w, f.h };
+	SDL_Rect dst = { (int)position.first - f.offsetX, (int)position.second - f.offsetY, f.w, f.h };
 	SDL_RenderCopy(renderer, f.texture, &src, &dst);
 }
 
@@ -190,8 +245,60 @@ Sprite::frame Sprite::getCurrentFrame()
 
 
 // PHYSICS AND COLLISION CODE GOES HERE
+// There are helper functions above
+
 void Sprite::update()
 {
-	movex(velocity.first);
-	movey(velocity.second);
+	position = addVectors(position, velocity);
+	velocity = addVectors(velocity, acceleration);
+}
+
+void Sprite::setVX(double vx)
+{
+	velocity.first = vx;
+}
+
+void Sprite::setVY(double vy)
+{
+	velocity.second = vy;
+}
+
+void Sprite::setAX(double ax)
+{
+	acceleration.first = ax;
+}
+
+void Sprite::setAY(double ay)
+{
+	acceleration.second = ay;
+}
+
+double Sprite::getX() const
+{
+	return position.first;
+}
+
+double Sprite::getY() const
+{
+	return position.second;
+}
+
+double Sprite::getVX() const
+{
+	return velocity.first;
+}
+
+double Sprite::getVY() const
+{
+	return velocity.second;
+}
+
+double Sprite::getAX() const
+{
+	return acceleration.first;
+}
+
+double Sprite::getAY() const
+{
+	return acceleration.second;
 }

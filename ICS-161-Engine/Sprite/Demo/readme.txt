@@ -6,14 +6,10 @@
 / Slashes may be used for comments
 
 / You can create variables by using "?"
-/ Arithmetic is not allowed on these variables so expressions like WIDTH/2 are invalid
-/ However you can define WIDTH/2
-/ I might add operations such as /, *, +, and - in the future
+/ Operations such as /, *, +, and - are allowed but are evaluated in left to right order
 
 ? WIDTH = 32
-? WIDTH/2 = 16
 ? HEIGHT = 64
-? HEIGHT/2 = 32
 
 / f= or file= or FILE= or F= will specify a file in the same directory
 / as the control file, additional backslashes and .. can be used to specify other directories
@@ -47,9 +43,9 @@ f = "res\y01uPOi.png"
 / X OFFSET and Y OFFSET are used to render the frame from a point other than it's center
 / For example, an X OFFSET of WIDTH/2 and a Y OFFSET of HEIGHT/2 will render the frame at its center
 
-/ X    Y    W        H        OFFX       OFFY        LEN
-   0,   0,   WIDTH,   HEIGHT,   WIDTH/2,   HEIGHT/2,  30
-  32,   0,        ,         ,   WIDTH/2,   HEIGHT/2,   3
+/ X    Y    W        H        OFFX         OFFY         LEN
+   0,   0,   WIDTH,   HEIGHT,   WIDTH / 2,   HEIGHT / 2,  30
+  32,   0,        ,         ,   WIDTH / 2,   HEIGHT / 2,   3
 / X    Y    W        H        LEN
   64,   0,   WIDTH,   HEIGHT,   3
   96,   0,        ,         ,   3

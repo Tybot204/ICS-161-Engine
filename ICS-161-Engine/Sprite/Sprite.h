@@ -8,43 +8,50 @@
 class Sprite
 {
 public:
-	Sprite(int currX, int currY, std::string file, SDL_Renderer* ren);
+	Sprite(double currX, double currY, std::string file, SDL_Renderer* ren);
 	~Sprite(void);
 
-	void setPos(int x, int y);
-	void movex(int delta);
-	void movey(int delta);
-	int getX();
-	int getY();
+	void	setPos(int x, int y);
+	void	movex(double delta);
+	void	movey(double delta);
+	void	setVX(double vx);
+	void	setVY(double vy);
+	void	setAX(double ax);
+	void	setAY(double ay);
+	double	getX()  const;
+	double	getY()  const;
+	double	getVX() const;
+	double	getVY() const;
+	double	getAX() const;
+	double	getAY() const;
 
 	// makeFrame returns the unique index of the frame
-	int makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance);
+	int		makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance);
 
 	// addFrameToSequence returns the number of frames in the sequence after the add
-	int addFrameToSequence(std::pair<std::string, std::string>, int frameIndex);
+	int		addFrameToSequence(std::pair<std::string, std::string>, int frameIndex);
 
 	// show(int) renders the frame with the specified frameIndex
-	void show(int frameIndex);
+	void	show(int frameIndex);
 	// show(string) cycles through all frames in the specified sequence, one per call
-	void show(std::string sequence);
+	void	show(std::string sequence);
 
-	void update();
+	void	update();
 
 // The private part of the class is given as a hint or suggestion.
 // In homework 3 you can make any modifications you want to the class's innards.
 private:
 
-	int currX, currY;		// the coordinates of the sprite relative to the window
 	SDL_Renderer* renderer;
 
 	struct frame
 	{
-		int x;
+		int	x;
 		int y;
 		int w;
 		int h;
 		int offsetX;  // TO THE COLLISION GROUP
-		int offsetY;  // currX - offsetX, currY - offsetY will be the upper left corner
+		int offsetY;  // position.first - offsetX, position.second - offsetY will be the upper left corner
 		int advance;  // make sure to take into account velocities, so objects can't phase through each other
 		SDL_Texture* texture;
 	};
@@ -55,6 +62,9 @@ private:
 	int sequenceIndex;
 
 	frame getCurrentFrame(); // For the collision detection group and physics
+	std::pair<double, double> position;		// the coordinates of the sprite relative to the window
 	std::pair<double, double> velocity;
 	std::pair<double, double> acceleration;
+
+	//double mass; Not sure if necessary
 };
