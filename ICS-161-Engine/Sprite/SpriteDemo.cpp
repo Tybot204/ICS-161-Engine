@@ -152,9 +152,9 @@ int main(int argc, char **argv){
 
 		//Render the scene
 		SDL_RenderClear(renderer);
-		spriteBG->show("background");
-		sprite1->show(spriteDirection);
-		sprite2->show("dot");
+		spriteBG->show("background", 0);
+		sprite1->show(spriteDirection, 1);
+		sprite2->show("dot", 0);
 		SDL_RenderPresent(renderer);
 	}
 

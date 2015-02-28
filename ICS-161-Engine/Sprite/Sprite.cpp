@@ -80,12 +80,12 @@ namespace
 		return accum;
 	}
 
-	double getVectorSize(const std::pair<double, double>& vector)
+	double getVectorSize(const Vector& vector)
 	{
 		return std::sqrt(vector.first * vector.first + vector.second * vector.second);
 	}
 
-	double vectorToAngle(const std::pair<double, double>& vector)
+	double vectorToAngle(const Vector& vector)
 	{
 		return std::atan2(vector.second, vector.first);
 	}
@@ -100,12 +100,12 @@ namespace
 		return 180 * radians / M_PI;
 	}
 
-	std::pair<double, double> addVectors(const std::pair<double, double>& a, const std::pair<double, double>& b)
+	Vector addVectors(const Vector& a, const Vector& b)
 	{
 		return std::make_pair(a.first + b.first, a.second + b.second);
 	}
 
-	std::pair<double, double> subVectors(const std::pair<double, double>& a, const std::pair<double, double>& b)
+	Vector subVectors(const Vector& a, const Vector& b)
 	{
 		return std::make_pair(a.first - b.first, a.second - b.second);
 	}
@@ -126,7 +126,10 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 	std::vector<std::string> str_params;
 	SDL_Texture* tex;
 	std::map<std::string, double> vars;
+	int hbparams[4] = { 0, 0, 0, 0 };
 	int params[7] = { 0, 0, 0, 0, 0, 0, 1 };
+	SDL_Rect hb;
+	std::vector<SDL_Rect> hitboxes;
 	while (!input.eof())
 	{
 		std::getline(input, line);
@@ -137,6 +140,15 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 			line = line.substr(line.find_first_not_of(" \t\r\n\v"));
 			switch (line[0])
 			{
+			case '!':
+				str_params = split_string(line.substr(1), ",");
+				for (auto i = 0u; i < str_params.size(); ++i)
+					str_params[i] = strip(str_params[i], " \r\t\v\n");
+				for (int i = 0; i < 4; ++i)
+					hbparams[i] = (int)evaluate_expression(str_params[i], vars);
+				hb = { hbparams[0], hbparams[1], hbparams[2], hbparams[3] };
+				hitboxes.push_back(hb);
+				break;
 			case '?':
 				vars[strip(line.substr(1, line.find('=') - 1), " \t\r\n\v")] = std::stoi(line.substr(line.find('=') + 1));
 				break;
@@ -160,7 +172,7 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 				if (str_params.size() == 1)
 				{
 					int siz = (int)-evaluate_expression(str_params[0], vars);
-					addFrameToSequence(sequence, makeFrame(NULL, 0, 0, 0, 0, 0, 0, siz >= 0 ? -1 : siz));
+					addFrameToSequence(sequence, makeFrame(NULL, 0, 0, 0, 0, 0, 0, siz >= 0 ? -1 : siz, hitboxes));
 					break;
 				}
 				param_size = str_params.size() - str_params.size() % 2;
@@ -169,9 +181,10 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 				for (int i = 0; i < param_size; ++i)
 					params[i] = str_params[i].size() == 0 ? params[i] : (int)evaluate_expression(str_params[i], vars);
 				for (int i = 0; i < params[6]; ++i)
-					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5], 1));
+					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5], 1, hitboxes));
 				if (params[6] <= 0)
-					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5], 0));
+					addFrameToSequence(sequence, makeFrame(tex, params[0], params[1], params[2], params[3], params[4], params[5], 0, hitboxes));
+				hitboxes = std::vector<SDL_Rect>();
 			}
 		}
 	}
@@ -180,7 +193,7 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 
 Sprite::~Sprite(void)
 {
-	for(frame f : frames)
+	for (frame f : frames)
 		SDL_DestroyTexture(f.texture);
 }
 
@@ -199,9 +212,14 @@ void Sprite::movey(double delta)
 	position.second += delta;
 }
 
-int Sprite::makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance)
+int Sprite::makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance, std::vector<SDL_Rect> hitboxes)
 {
-	frame f = { x, y, w, h, offX, offY, advance, texture };
+	for (auto i = 0u; i < hitboxes.size(); ++i)
+	{
+		hitboxes[i].x -= offX;
+		hitboxes[i].y -= offY;
+	}
+	frame f = { x, y, w, h, offX, offY, advance, texture, hitboxes };
 	frames.push_back(f);
 	return frames.size() - 1;
 }
@@ -212,15 +230,43 @@ int Sprite::addFrameToSequence(std::pair<std::string, std::string> seqName, int 
 	return sequenceList[seqName].size();
 }
 
-void Sprite::show(int frameIndex)
+SDL_Rect Sprite::getEffectiveHitbox(SDL_Rect hitbox) const
+{
+	hitbox.x += (int)position.first;
+	hitbox.y += (int)position.second;
+	return hitbox;
+}
+
+void Sprite::showHitboxes(const frame& f) const
+{
+	Uint8 color[4];
+	SDL_GetRenderDrawColor(renderer, &color[0], &color[1], &color[2], &color[3]);
+	SDL_BlendMode blend;
+	SDL_GetRenderDrawBlendMode(renderer, &blend);
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	for (SDL_Rect hb : f.hitboxes)
+	{
+		SDL_Rect r = getEffectiveHitbox(hb);
+		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+		SDL_RenderDrawRect(renderer, &r);
+		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 64);
+		SDL_RenderFillRect(renderer, &r);
+	}
+	SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
+	SDL_SetRenderDrawBlendMode(renderer, blend);
+}
+
+void Sprite::show(int frameIndex, int hitboxes)
 {
 	frame f = frames[frameIndex];
 	SDL_Rect src = { f.x, f.y, f.w, f.h };
 	SDL_Rect dst = { (int)position.first - f.offsetX, (int)position.second - f.offsetY, f.w, f.h };
 	SDL_RenderCopy(renderer, f.texture, &src, &dst);
+	if (hitboxes)
+		showHitboxes(f);
 }
 
-void Sprite::show(std::string sequence)
+void Sprite::show(std::string sequence, int hitboxes)
 {
 	while (sequence != currentSequence.second || (unsigned int)sequenceIndex >= sequenceList[currentSequence].size())
 	{
@@ -234,7 +280,7 @@ void Sprite::show(std::string sequence)
 		sequenceIndex += frames[frame_num].advance;
 		frame_num = sequenceList[currentSequence][sequenceIndex];
 	}
-	show(frame_num);
+	show(frame_num, hitboxes);
 	sequenceIndex += frames[frame_num].advance;
 }
 
