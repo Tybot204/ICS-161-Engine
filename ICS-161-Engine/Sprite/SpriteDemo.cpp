@@ -181,7 +181,7 @@ int main(int argc, char **argv){
 			sprite1->setVY(0);
 			grounded = true;
 		}
-		if (!(left || right || up || down) && grounded)
+		if (sprite1->getVX() == 0 && grounded)
 		{
 			spriteAction = "stand ";
 		}

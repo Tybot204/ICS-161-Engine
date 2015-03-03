@@ -346,12 +346,7 @@ void Sprite::show(std::string sequence, int hitboxes)
 Sprite::frame Sprite::getCurrentFrame()
 {
 	if (sequenceList.count(currentSequence) == 0)
-		return frames[0];	
-	if ((unsigned int)sequenceIndex >= sequenceList[currentSequence].size())
-	{
-		currentSequence.first = currentSequence.second;
-		sequenceIndex = 0;
-	}
+		return frames[0];
 	return frames[sequenceList[currentSequence][sequenceIndex]];
 }
 
