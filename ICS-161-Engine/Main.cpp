@@ -29,6 +29,18 @@ void logSDLError(std::ostream &os, const std::string &msg){
 	OutputDebugString(errMsg.str().c_str());
 }
 
+Json::Value loadLevel(std::string filename){
+	std::ifstream ifs(filename);
+	std::string json((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
+	Json::Value root;
+	Json::Reader reader;
+	bool parsed = reader.parse(json.c_str(), root, false);
+	if (!parsed){
+		std::cout << "Failed to load level" << std::endl;
+	}
+	return root;
+}
+
 
 int main(int argc, char **argv){
 
@@ -61,19 +73,7 @@ int main(int argc, char **argv){
 		return 1;
 	}
 
-
-	std::ifstream ifs("test.json");
-	std::string json((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
-	std::cout << json << std::endl;
-	Json::Value root;
-	Json::Reader reader;
-	bool parsed = reader.parse(json.c_str(), root, false);
-	if (!parsed){
-		std::cout << "Failed to load level" << std::endl;
-		return 1;
-	}
-	std::string test = root["level"].asString();
-	std::cout << "Root: " << test << std::endl;
+	Json::Value level = loadLevel("test.json");
 
 	SDL_Event e;
 	bool quit = false;
