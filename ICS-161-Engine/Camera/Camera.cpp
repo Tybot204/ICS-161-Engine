@@ -23,7 +23,7 @@ int Camera::getX(){
 	return camera.x;
 }
 int Camera::getY(){
-	return camera.x;
+	return camera.y;
 }
 
 //moves camera by x and y units

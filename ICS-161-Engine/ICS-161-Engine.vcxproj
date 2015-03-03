@@ -72,11 +72,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Json\jsoncpp.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Sprite\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Json\json-forwards.h" />
     <ClInclude Include="Json\json.h" />
     <ClInclude Include="Sprite\Sprite.h" />

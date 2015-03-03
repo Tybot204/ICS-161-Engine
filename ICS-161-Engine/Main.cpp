@@ -76,12 +76,30 @@ int main(int argc, char **argv){
 
 	Json::Value level = loadLevel("test.json");
 
+	Camera camera = Camera(renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	SDL_Event e;
 	bool quit = false;
 	while (!quit){
 		while (SDL_PollEvent(&e)){
 			if (e.type == SDL_QUIT)
 				quit = true;
+			if (e.type == SDL_KEYDOWN){
+				switch (e.key.keysym.sym){
+				case SDLK_w:
+					camera.move(0, -5);
+					break;
+				case SDLK_d:
+					camera.move(5, 0);
+					break;
+				case SDLK_s:
+					camera.move(0, 5);
+					break;
+				case SDLK_a:
+					camera.move(-5, 0);
+					break;
+				}
+			}
 		}
 	}
 
