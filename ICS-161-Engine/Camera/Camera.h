@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL.h"
+#include "../Sprite/Sprite.h"
 
 
 
@@ -21,7 +22,7 @@ public:
 	void setPos(int x, int y);
 
 	//render texture at given point
-	void render(int x, int y, SDL_Texture* texture);
+	void render(int x, int y, Sprite* sprite, std::string sequence);
 
 	//center camera over some object and keep from going outside the level
 	void fixCameraPosition(int levelwidth, int levelheight);

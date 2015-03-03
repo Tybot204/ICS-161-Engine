@@ -75,6 +75,8 @@ int main(int argc, char **argv){
 	}
 
 	Json::Value level = loadLevel("test.json");
+	const std::string resPath = "assets\\";
+	Sprite* spriteBG = new Sprite(0, 0, resPath + "Document1.txt", renderer);
 
 	Camera camera = Camera(renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -101,6 +103,12 @@ int main(int argc, char **argv){
 				}
 			}
 		}
+		
+		//Render the scene
+		SDL_RenderClear(renderer);
+		camera.render(0, 0, spriteBG, "background");
+		SDL_RenderPresent(renderer);
+		std::cout << camera.getX() << ":" << camera.getY() << std::endl;
 	}
 
 	cleanup(renderer, window);
