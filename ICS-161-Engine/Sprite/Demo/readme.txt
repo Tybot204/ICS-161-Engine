@@ -11,18 +11,18 @@
 ? WIDTH = 32
 ? HEIGHT = 64
 
-/ f= or file= or FILE= or F= will specify a file in the same directory
+/ $f= or $file= or $FILE= or $F= will specify a file in the same directory
 / as the control file, additional backslashes and .. can be used to specify other directories
 / For example: ..\myimg.png will point to the image called myimg.png above
 / the folder of this file
 / 
 / The same image can be used for different sequences
 / All subsequent frames will use this file
-/ It is possible to change the file by saying f= again
+/ It is possible to change the file by saying $f= again
 
 / Quotes are optional but are required for files which start or end in whitespaces
 
-f = "res\y01uPOi.png"
+$f = "res\y01uPOi.png"
 
 / A colon (:) is used to specify a sequence name, it is possible to
 / reuse a sequence name in order add more frames to that sequence
@@ -114,14 +114,14 @@ f = "res\y01uPOi.png"
      :walk down
 
 / As stated before, it is possible to change the file at any time
-f = res\Untitled.png
+$f = res\Untitled.png
 
 0,192,WIDTH,HEIGHT,3
 32,192,3
 64,192,3
 96,192,3
 
-f = res\y01uPOi.png
+$f = res\y01uPOi.png
 
 !12,11-2,10,11
 !10,21-2,13,9

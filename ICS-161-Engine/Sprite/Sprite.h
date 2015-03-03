@@ -29,6 +29,12 @@ public:
 	double	getAX() const;
 	double	getAY() const;
 
+	// Sets the Sprite's coordinates relative to its top/bottom/left/right
+	void setTop(double top);
+	void setBottom(double bottom);
+	void setLeft(double left);
+	void setRight(double right);
+
 	// makeFrame returns the unique index of the frame
 	int		makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance, std::vector<SDL_Rect> hitboxes);
 
@@ -42,8 +48,18 @@ public:
 
 	void	update();
 
-// The private part of the class is given as a hint or suggestion.
-// In homework 3 you can make any modifications you want to the class's innards.
+	SDL_Rect getBoundary();
+
+	std::vector<SDL_Rect> getHitboxes();
+	/*
+		For the physics group
+		You can iterate through all of a sprite's current hitboxes by doing
+		for ( SDL_Rect hitbox : my_sprite.getHitboxes() )
+		{
+			// Do stuff here
+		}
+	*/
+
 private:
 
 	SDL_Renderer* renderer;
@@ -66,33 +82,13 @@ private:
 	std::map<Sequence, std::vector<int>> sequenceList;
 	int sequenceIndex;
 
-	void showHitboxes(const frame& f) const;
+	void showHitboxes();
 
 	// Converts a hitbox that is relative to the frame
 	// to a hitbox that is relative to the world
 
 	// Hitboxes are stored as X, Y, W, H
 	SDL_Rect getEffectiveHitbox(SDL_Rect hitbox) const;
-	/*
-		For the physics/collision group:
-
-		An example of how to loop through a Sprite's hitboxes is:
-		frame f = my_sprite.getCurrentFrame();
-		for ( SDL_Rect hb : hitboxes )
-		{
-			SDL_Rect hitbox = my_sprite.getEffectiveHitbox(hb);
-			// Do stuff here
-		}
-
-		or
-
-		frame f = my_sprite.getCurrentFrame();
-		for ( auto i = 0u; i < f.hitboxes.size(); ++i )
-		{
-			SDL_Rect hitbox = my_sprite.getEffectiveHitbox(hitboxes[i]);
-			// Do stuff here
-		}
-	*/
 	frame getCurrentFrame(); // For the collision detection group and physics
 
 	Vector position;		// the coordinates of the sprite relative to the window
@@ -101,3 +97,5 @@ private:
 
 	//double mass; Not sure if necessary
 };
+
+bool collide(Sprite& a, Sprite& b);

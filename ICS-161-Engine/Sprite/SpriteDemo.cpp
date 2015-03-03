@@ -77,33 +77,38 @@ int main(int argc, char **argv){
 	int x = SCREEN_WIDTH / 2;
 	int y = SCREEN_HEIGHT / 2;
 
-	Sprite* sprite1 = new Sprite(x, y, resPath + "readme.txt", renderer);
+	Sprite* sprite1 = new Sprite(x, y, resPath + "Lea.txt", renderer);
 	Sprite* sprite2 = new Sprite(x, y, resPath + "dot.txt", renderer);
 
 	SDL_Event e;
-	bool quit = false, left = false, right = false, up = false, down = false;
-	std::string spriteDirection = "walk right";
+	bool quit = false, left = false, right = false, up = false, down = false, shift = false, grounded = false;
+	std::string spriteAction = "walk ";
+	std::string facing = "right";
+	sprite1->setAY(.4);
 	while (!quit){
 		while (SDL_PollEvent(&e)){
 			if (e.type == SDL_QUIT){
 				quit = true;
 			}
 			if (e.type == SDL_KEYDOWN) {
-				if (e.key.keysym.sym == SDLK_RIGHT)
+				switch (e.key.keysym.sym)
 				{
+				case SDLK_RIGHT:
 					right = true;
-				}
-				else if (e.key.keysym.sym == SDLK_LEFT)
-				{
+					break;
+				case SDLK_LEFT:
 					left = true;
-				}
-				else if (e.key.keysym.sym == SDLK_UP)
-				{
+					break;
+				case SDLK_UP:
 					up = true;
-				}
-				else if (e.key.keysym.sym == SDLK_DOWN)
-				{
+					break;
+				case SDLK_DOWN:
 					down = true;
+					break;
+				case SDLK_LSHIFT:
+				case SDLK_RSHIFT:
+					shift = true;
+					break;
 				}
 			}
 
@@ -122,39 +127,69 @@ int main(int argc, char **argv){
 				case SDLK_DOWN:
 					down = false;
 					break;
+				case SDLK_LSHIFT:
+				case SDLK_RSHIFT:
+					shift = false;
+					break;
 				}
 			}
 		}
-		if (right)
-		{
-			sprite2->movex(2);
-			sprite1->movex(2);
-			spriteDirection = "walk right";
-		}
 		if (left)
 		{
-			sprite2->movex(-2);
-			sprite1->movex(-2);
-			spriteDirection = "walk left";
+			sprite1->setVX(-2);
+			spriteAction = "walk ";
+			if (shift)
+			{
+				sprite1->setVX(-4);
+				spriteAction = "run ";
+			}
+			facing = "left";
 		}
-		if (down)
+		else if (right)
 		{
-			sprite2->movey(2);
-			sprite1->movey(2);
-			spriteDirection = "walk down";
+			sprite1->setVX(2);
+			spriteAction = "walk ";
+			if (shift)
+			{
+				sprite1->setVX(4);
+				spriteAction = "run ";
+			}
+			facing = "right";
 		}
-		if (up)
+		else
 		{
-			sprite2->movey(-2);
-			sprite1->movey(-2);
-			spriteDirection = "walk up";
+			sprite1->setVX(0);
+		}
+		if (up && grounded)
+		{
+			sprite1->setVY(-8);
 		}
 
+		if (sprite1->getVY() < 0)
+		{
+			spriteAction = "rise ";
+			grounded = false;
+		}
+
+		if (sprite1->getVY() >= 0 && !grounded)
+			spriteAction = "descend ";
+
+		sprite1->update();
+		if (collide(*sprite1, *spriteBG))
+		{
+			sprite1->setBottom(spriteBG->getBoundary().y);
+			sprite1->setVY(0);
+			grounded = true;
+		}
+		if (!(left || right || up || down) && grounded)
+		{
+			spriteAction = "stand ";
+		}
 		//Render the scene
 		SDL_RenderClear(renderer);
-		spriteBG->show("background", 0);
-		sprite1->show(spriteDirection, 1);
-		sprite2->show("dot", 0);
+		spriteBG->show("background", 1);
+		sprite1->show(spriteAction + facing, 1);
+		//sprite2->show("dot", 0);
 		SDL_RenderPresent(renderer);
 	}
 

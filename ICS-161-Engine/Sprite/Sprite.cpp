@@ -72,6 +72,8 @@ namespace
 		while ((pos = s.find_first_of("/*+-")) != std::string::npos)
 		{
 			num = strip(s.substr(0, pos), " \r\t\v\n");
+			if (num.length() == 0)
+				num = "0";
 			accum = perform_op(accum, str_to_doub(num, vars), op);
 			op = s[pos];
 			s = s.erase(0, pos + 1);
@@ -156,8 +158,7 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 				str_params = split_string(line.substr(1), ":");
 				sequence = std::make_pair(strip(str_params[0], " \r\v\n\t"), strip(str_params[1], " \r\v\n\t"));
 				break;
-			case 'F':
-			case 'f':
+			case '$':
 				tex = IMG_LoadTexture(ren, (root + get_quoted(strip(line.substr(line.find('=') + 1), " \r\n\t\v"))).c_str());
 				break;
 			case ':':
@@ -237,20 +238,72 @@ SDL_Rect Sprite::getEffectiveHitbox(SDL_Rect hitbox) const
 	return hitbox;
 }
 
-void Sprite::showHitboxes(const frame& f) const
+void Sprite::setTop(double top)
+{
+	SDL_Rect boundary = getBoundary();
+	movey(top - boundary.y);
+}
+
+void Sprite::setBottom(double bottom)
+{
+	SDL_Rect boundary = getBoundary();
+	movey(bottom - (boundary.y + boundary.h));
+}
+
+void Sprite::setLeft(double left)
+{
+	SDL_Rect boundary = getBoundary();
+	movex(left - boundary.x);
+}
+
+void Sprite::setRight(double right)
+{
+	SDL_Rect boundary = getBoundary();
+	movex(right - (boundary.x + boundary.w));
+}
+
+SDL_Rect Sprite::getBoundary()
+{
+	int up = INT_MAX, down = INT_MIN, left = INT_MAX, right = INT_MIN;
+	for (SDL_Rect hitbox : getHitboxes())
+	{
+		if (hitbox.x < left)
+			left = hitbox.x;
+		if (hitbox.x + hitbox.w > right)
+			right = hitbox.x + hitbox.w;
+		if (hitbox.y < up)
+			up = hitbox.y;
+		if (hitbox.y + hitbox.h > down)
+			down = hitbox.y + hitbox.h;
+	}
+	return { left, up, right - left, down - up };
+}
+
+std::vector<SDL_Rect> Sprite::getHitboxes()
+{
+	std::vector<SDL_Rect> result;
+	for (SDL_Rect hitbox : getCurrentFrame().hitboxes)
+		result.push_back(getEffectiveHitbox(hitbox));
+	return result;
+}
+
+void Sprite::showHitboxes()
 {
 	Uint8 color[4];
 	SDL_GetRenderDrawColor(renderer, &color[0], &color[1], &color[2], &color[3]);
 	SDL_BlendMode blend;
 	SDL_GetRenderDrawBlendMode(renderer, &blend);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	for (SDL_Rect hb : f.hitboxes)
+	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+	SDL_RenderDrawRect(renderer, &getBoundary());
+	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 64);
+	SDL_RenderFillRect(renderer, &getBoundary());
+	for (SDL_Rect hb : getHitboxes())
 	{
-		SDL_Rect r = getEffectiveHitbox(hb);
 		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-		SDL_RenderDrawRect(renderer, &r);
+		SDL_RenderDrawRect(renderer, &hb);
 		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 64);
-		SDL_RenderFillRect(renderer, &r);
+		SDL_RenderFillRect(renderer, &hb);
 	}
 	SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
 	SDL_SetRenderDrawBlendMode(renderer, blend);
@@ -263,7 +316,7 @@ void Sprite::show(int frameIndex, int hitboxes)
 	SDL_Rect dst = { (int)position.first - f.offsetX, (int)position.second - f.offsetY, f.w, f.h };
 	SDL_RenderCopy(renderer, f.texture, &src, &dst);
 	if (hitboxes)
-		showHitboxes(f);
+		showHitboxes();
 }
 
 void Sprite::show(std::string sequence, int hitboxes)
@@ -282,10 +335,23 @@ void Sprite::show(std::string sequence, int hitboxes)
 	}
 	show(frame_num, hitboxes);
 	sequenceIndex += frames[frame_num].advance;
+	while (sequence != currentSequence.second || (unsigned int)sequenceIndex >= sequenceList[currentSequence].size())
+	{
+		currentSequence.first = currentSequence.second;
+		currentSequence.second = sequence;
+		sequenceIndex = 0;
+	}
 }
 
 Sprite::frame Sprite::getCurrentFrame()
 {
+	if (sequenceList.count(currentSequence) == 0)
+		return frames[0];	
+	if ((unsigned int)sequenceIndex >= sequenceList[currentSequence].size())
+	{
+		currentSequence.first = currentSequence.second;
+		sequenceIndex = 0;
+	}
 	return frames[sequenceList[currentSequence][sequenceIndex]];
 }
 
@@ -347,4 +413,13 @@ double Sprite::getAX() const
 double Sprite::getAY() const
 {
 	return acceleration.second;
+}
+
+bool collide(Sprite& a, Sprite& b)
+{
+	for (SDL_Rect hba : a.getHitboxes())
+		for (SDL_Rect hbb : b.getHitboxes())
+			if (SDL_HasIntersection(&hba, &hbb) == SDL_TRUE)
+				return true;
+	return false;
 }

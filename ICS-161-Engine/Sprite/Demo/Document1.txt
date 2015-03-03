@@ -1,3 +1,4 @@
 :background
-f=res\Background.png
+$f=res\Background.png
+!0,340,640,140
 0,0,640,480,0
