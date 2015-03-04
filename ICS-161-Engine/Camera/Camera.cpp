@@ -1,9 +1,9 @@
 #include "Camera.h"
 #include <iostream>
 
-Camera::Camera(SDL_Renderer* renderer, int x, int y, int w, int h){
+Camera::Camera(SDL_Renderer* renderer,SDL_Rect rect){
 	this->renderer = renderer;
-	this->camera = { x, y, w, h };
+	this->camera = rect;
 
 }
 
@@ -26,6 +26,11 @@ int Camera::getY(){
 	return camera.y;
 }
 
+//return camera SDL_Rect
+void Camera::getRect(){
+	return camera;
+}
+
 //moves camera by x and y units
 //@param xdelta an int
 //@param ydelta an int
@@ -43,17 +48,17 @@ void Camera::setPos(int x, int y){
 }
 
 //render texture at a given point
-void Camera::render(int x, int y, Sprite* sprite, std::string sequence){
-	//set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, camera.w, camera.h };
+void Camera::render(Sprite* sprite, std::string sequence){
+	////set rendering space and render to screen
+	//SDL_Rect renderQuad = { x, y, camera.w, camera.h };
 
-	//set clip rendering dimensions
-	if (&camera != NULL){
-		renderQuad.w = camera.w;
-		renderQuad.h = camera.h;
-	}
+	////set clip rendering dimensions
+	//if (&camera != NULL){
+	//	renderQuad.w = camera.w;
+	//	renderQuad.h = camera.h;
+	//}
 
-	//render to screen
+	////render to screen
 	sprite->show(sequence, 0);
 }
 
