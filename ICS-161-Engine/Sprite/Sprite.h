@@ -3,7 +3,23 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include <vector>
-#include <map>
+#include <unordered_map>
+
+template <>
+struct std::hash<std::pair<std::string, std::string>>
+{
+	size_t operator()(const std::pair<std::string, std::string>& item) const
+	{
+		unsigned int hash1 = 2166136261;
+		unsigned int hash2 = 2166136261;
+		for (auto i = 0u; i < item.first.size() && i < item.second.size(); ++i)
+		{
+			hash1 = (hash1 ^ item.first[i]) * 16777619;
+			hash1 = (hash1 ^ item.second[i]) * 16777619;
+		}
+		return hash1 ^ (hash2 << 1) >> 1;
+	}
+};
 
 typedef std::pair<double, double> Vector;
 
@@ -66,10 +82,7 @@ private:
 
 	struct frame
 	{
-		int	x;
-		int y;
-		int w;
-		int h;
+		SDL_Rect coordinates;
 		int offsetX;  // TO THE COLLISION GROUP
 		int offsetY;  // position.first - offsetX, position.second - offsetY will be the upper left corner
 		int advance;  // make sure to take into account velocities, so objects can't phase through each other
@@ -79,16 +92,16 @@ private:
 	std::vector<frame> frames;
 
 	Sequence currentSequence;
-	std::map<Sequence, std::vector<int>> sequenceList;
+	std::unordered_map<Sequence, std::vector<int>> sequenceList;
 	int sequenceIndex;
 
 	void showHitboxes();
-
 	// Converts a hitbox that is relative to the frame
 	// to a hitbox that is relative to the world
 
 	// Hitboxes are stored as X, Y, W, H
 	SDL_Rect getEffectiveHitbox(SDL_Rect hitbox) const;
+	int getCurrentFrameIndex();
 	frame getCurrentFrame(); // For the collision detection group and physics
 
 	Vector position;		// the coordinates of the sprite relative to the window

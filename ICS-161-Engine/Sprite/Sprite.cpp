@@ -220,7 +220,8 @@ int Sprite::makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX
 		hitboxes[i].x -= offX;
 		hitboxes[i].y -= offY;
 	}
-	frame f = { x, y, w, h, offX, offY, advance, texture, hitboxes };
+	SDL_Rect coor = { x, y, w, h };
+	frame f = { coor, offX, offY, advance, texture, hitboxes };
 	frames.push_back(f);
 	return frames.size() - 1;
 }
@@ -312,9 +313,8 @@ void Sprite::showHitboxes()
 void Sprite::show(int frameIndex, int hitboxes)
 {
 	frame f = frames[frameIndex];
-	SDL_Rect src = { f.x, f.y, f.w, f.h };
-	SDL_Rect dst = { (int)position.first - f.offsetX, (int)position.second - f.offsetY, f.w, f.h };
-	SDL_RenderCopy(renderer, f.texture, &src, &dst);
+	SDL_Rect dst = { (int)position.first - f.offsetX, (int)position.second - f.offsetY, f.coordinates.w, f.coordinates.h };
+	SDL_RenderCopy(renderer, f.texture, &f.coordinates, &dst);
 	if (hitboxes)
 		showHitboxes();
 }
@@ -341,6 +341,13 @@ void Sprite::show(std::string sequence, int hitboxes)
 		currentSequence.second = sequence;
 		sequenceIndex = 0;
 	}
+}
+
+int Sprite::getCurrentFrameIndex()
+{
+	if (sequenceList.count(currentSequence) == 0)
+		return 0;
+	return sequenceList[currentSequence][sequenceIndex];
 }
 
 Sprite::frame Sprite::getCurrentFrame()
