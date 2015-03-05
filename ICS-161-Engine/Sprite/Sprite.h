@@ -52,7 +52,7 @@ public:
 	void setRight(double right);
 
 	// makeFrame returns the unique index of the frame
-	int		makeFrame(SDL_Texture* texture, int x, int y, int w, int h, int offX, int offY, int advance, std::vector<SDL_Rect> hitboxes);
+	int		makeFrame(SDL_Surface* surface, int x, int y, int w, int h, int offX, int offY, int advance, std::vector<SDL_Rect> hitboxes);
 
 	// addFrameToSequence returns the number of frames in the sequence after the add
 	int		addFrameToSequence(std::pair<std::string, std::string>, int frameIndex);
@@ -65,7 +65,7 @@ public:
 	void	update();
 
 	SDL_Rect getBoundary();
-
+	SDL_Surface* Sprite::getSurface();
 	std::vector<SDL_Rect> getHitboxes();
 	/*
 		For the physics group
@@ -86,6 +86,7 @@ private:
 		int offsetX;  // TO THE COLLISION GROUP
 		int offsetY;  // position.first - offsetX, position.second - offsetY will be the upper left corner
 		int advance;  // make sure to take into account velocities, so objects can't phase through each other
+		SDL_Surface* surface;
 		SDL_Texture* texture;
 		std::vector<SDL_Rect> hitboxes;
 	};
