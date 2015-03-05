@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <algorithm>
 #include <fstream>
 #include <string>
@@ -58,12 +58,12 @@ namespace
 		return 0;
 	}
 
-	double str_to_doub(const std::string& s, std::map<std::string, double>& vars)
+	double str_to_doub(const std::string& s, const std::unordered_map<std::string, double>& vars)
 	{
-		return vars.count(s) ? vars[s] : std::stod(s);
+		return vars.count(s) ? vars.at(s) : std::stod(s);
 	}
 
-	double evaluate_expression(std::string s, std::map<std::string, double>& vars)
+	double evaluate_expression(std::string s, const std::unordered_map<std::string, double>& vars)
 	{
 		double accum = 0;
 		int pos = 0;
@@ -127,7 +127,7 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 		root = file.substr(0, file.rfind("\\") + 1);
 	std::vector<std::string> str_params;
 	SDL_Surface* surf = NULL;
-	std::map<std::string, double> vars;
+	std::unordered_map<std::string, double> vars;
 	int hbparams[4] = { 0, 0, 0, 0 };
 	int params[7] = { 0, 0, 0, 0, 0, 0, 1 };
 	SDL_Rect hb;
@@ -270,7 +270,7 @@ void Sprite::setRight(double right)
 	movex(right - (boundary.x + boundary.w));
 }
 
-SDL_Rect Sprite::getBoundary()
+SDL_Rect Sprite::getBoundary() const
 {
 	int up = INT_MAX, down = INT_MIN, left = INT_MAX, right = INT_MIN;
 	for (SDL_Rect hitbox : getHitboxes())
@@ -287,12 +287,12 @@ SDL_Rect Sprite::getBoundary()
 	return { left, up, right - left, down - up };
 }
 
-SDL_Surface* Sprite::getSurface()
+SDL_Surface* Sprite::getSurface() const
 {
 	return getCurrentFrame().surface;
 }
 
-std::vector<SDL_Rect> Sprite::getHitboxes()
+std::vector<SDL_Rect> Sprite::getHitboxes() const
 {
 	std::vector<SDL_Rect> result;
 	for (SDL_Rect hitbox : getCurrentFrame().hitboxes)
@@ -300,7 +300,7 @@ std::vector<SDL_Rect> Sprite::getHitboxes()
 	return result;
 }
 
-void Sprite::showHitboxes()
+void Sprite::showHitboxes() const
 {
 	Uint8 color[4];
 	SDL_GetRenderDrawColor(renderer, &color[0], &color[1], &color[2], &color[3]);
@@ -322,7 +322,7 @@ void Sprite::showHitboxes()
 	SDL_SetRenderDrawBlendMode(renderer, blend);
 }
 
-void Sprite::show(int frameIndex, int hitboxes)
+void Sprite::show(int frameIndex, int hitboxes) const
 {
 	frame f = frames[frameIndex];
 	SDL_Rect dst = { (int)position.first - f.offsetX, (int)position.second - f.offsetY, f.coordinates.w, f.coordinates.h };
@@ -355,18 +355,18 @@ void Sprite::show(std::string sequence, int hitboxes)
 	}
 }
 
-int Sprite::getCurrentFrameIndex()
+int Sprite::getCurrentFrameIndex() const
 {
 	if (sequenceList.count(currentSequence) == 0)
 		return 0;
-	return sequenceList[currentSequence][sequenceIndex];
+	return sequenceList.at(currentSequence)[sequenceIndex];
 }
 
-Sprite::frame Sprite::getCurrentFrame()
+Sprite::frame Sprite::getCurrentFrame() const
 {
 	if (sequenceList.count(currentSequence) == 0)
 		return frames[0];
-	return frames[sequenceList[currentSequence][sequenceIndex]];
+	return frames[sequenceList.at(currentSequence)[sequenceIndex]];
 }
 
 

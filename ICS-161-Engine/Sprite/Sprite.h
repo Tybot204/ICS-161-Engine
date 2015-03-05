@@ -58,15 +58,15 @@ public:
 	int		addFrameToSequence(std::pair<std::string, std::string>, int frameIndex);
 
 	// show(int) renders the frame with the specified frameIndex
-	void	show(int frameIndex, int hitboxes);
+	void	show(int frameIndex, int hitboxes) const;
 	// show(string) cycles through all frames in the specified sequence, one per call
 	void	show(std::string sequence, int hitboxes);
 
 	void	update();
 
-	SDL_Rect getBoundary();
-	SDL_Surface* Sprite::getSurface();
-	std::vector<SDL_Rect> getHitboxes();
+	SDL_Rect getBoundary() const;
+	SDL_Surface* Sprite::getSurface() const;
+	std::vector<SDL_Rect> getHitboxes() const;
 	/*
 		For the physics group
 		You can iterate through all of a sprite's current hitboxes by doing
@@ -96,14 +96,14 @@ private:
 	std::unordered_map<Sequence, std::vector<int>> sequenceList;
 	int sequenceIndex;
 
-	void showHitboxes();
+	void showHitboxes() const;
 	// Converts a hitbox that is relative to the frame
 	// to a hitbox that is relative to the world
 
 	// Hitboxes are stored as X, Y, W, H
 	SDL_Rect getEffectiveHitbox(SDL_Rect hitbox) const;
-	int getCurrentFrameIndex();
-	frame getCurrentFrame(); // For the collision detection group and physics
+	int getCurrentFrameIndex() const;
+	frame getCurrentFrame() const; // For the collision detection group and physics
 
 	Vector position;		// the coordinates of the sprite relative to the window
 	Vector velocity;
