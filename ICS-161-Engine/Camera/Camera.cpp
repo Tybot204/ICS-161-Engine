@@ -27,7 +27,7 @@ int Camera::getY(){
 }
 
 //return camera SDL_Rect
-void Camera::getRect(){
+SDL_Rect Camera::getRect(){
 	return camera;
 }
 
