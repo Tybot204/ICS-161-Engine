@@ -1,9 +1,9 @@
 #include "Camera.h"
 #include <iostream>
 
-Camera::Camera(SDL_Renderer* renderer, int x, int y, int w, int h){
+Camera::Camera(SDL_Renderer* renderer,SDL_Rect rect){
 	this->renderer = renderer;
-	this->camera = { x, y, w, h };
+	this->camera = rect;
 
 }
 
@@ -26,6 +26,11 @@ int Camera::getY(){
 	return camera.y;
 }
 
+//return camera SDL_Rect
+SDL_Rect Camera::getRect(){
+	return camera;
+}
+
 //moves camera by x and y units
 //@param xdelta an int
 //@param ydelta an int
@@ -43,18 +48,18 @@ void Camera::setPos(int x, int y){
 }
 
 //render texture at a given point
-void Camera::render(int x, int y, SDL_Texture* texture){
-	//set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, camera.w, camera.h };
+void Camera::render(Sprite* sprite, std::string sequence){
+	////set rendering space and render to screen
+	//SDL_Rect renderQuad = { x, y, camera.w, camera.h };
 
-	//set clip rendering dimensions
-	if (&camera != NULL){
-		renderQuad.w = camera.w;
-		renderQuad.h = camera.h;
-	}
+	////set clip rendering dimensions
+	//if (&camera != NULL){
+	//	renderQuad.w = camera.w;
+	//	renderQuad.h = camera.h;
+	//}
 
-	//render to screen
-	SDL_RenderCopyEx(renderer, texture, &camera, &renderQuad, 0.0, NULL, SDL_FLIP_NONE);
+	////render to screen
+	sprite->show(sequence, 0);
 }
 
 //center camera over some object and keep from going outside the level

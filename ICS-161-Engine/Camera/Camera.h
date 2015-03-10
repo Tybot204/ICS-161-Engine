@@ -1,11 +1,11 @@
 #pragma once
-#include "SDL.h"
 
-
+#include <SDL.h>
+#include "../Sprite/Sprite.h"
 
 class Camera{
 public:
-	Camera(SDL_Renderer* renderer, int x, int y, int w, int h);
+	Camera(SDL_Rect rect);
 	~Camera();
 
 	//return camera dimensions;
@@ -14,20 +14,18 @@ public:
 	int getX();
 	int getY();
 
-	//moves the camera by x and y units
-	void move(int xdelta, int ydelta);
+	//scrolls through a level by the x axis
+	void scrollX(int incr, int levelW, int screenW);
+	//scrolls through a level by the y axis
+	void scrollY(int incr, int levelH, int screenH);
 
-	//sets the position of the camera by x and y units
+	//sets coordinates of camera at x and y
 	void setPos(int x, int y);
 
-	//render texture at given point
-	void render(int x, int y, SDL_Texture* texture);
 
-	//center camera over some object and keep from going outside the level
+	//keeps from going outside the level
 	void fixCameraPosition(int levelwidth, int levelheight);
 
 private:
-	SDL_Renderer* renderer;
 	SDL_Rect camera;
-
 };
