@@ -22,7 +22,6 @@ public:
 	//sets coordinates of camera at x and y
 	void setPos(int x, int y);
 
-
 	//keeps from going outside the level
 	void fixCameraPosition(int levelwidth, int levelheight);
 

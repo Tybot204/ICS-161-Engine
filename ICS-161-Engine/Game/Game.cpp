@@ -7,7 +7,7 @@ void Game::start() {
 	const std::string resPath = "assets\\";
 	Sprite* spriteBG = new Sprite(0, 0, resPath + "Document1.txt", renderer);
 
-	Camera camera = Camera(renderer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	Camera camera = Camera(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
 
 	SDL_Event e;
 	bool quit = false;
@@ -18,16 +18,16 @@ void Game::start() {
 			if (e.type == SDL_KEYDOWN){
 				switch (e.key.keysym.sym){
 				case SDLK_w:
-					camera.move(0, -5);
+					//camera.move(0, -5);
 					break;
 				case SDLK_d:
-					camera.move(5, 0);
+					//camera.move(5, 0);
 					break;
 				case SDLK_s:
-					camera.move(0, 5);
+					//camera.move(0, 5);
 					break;
 				case SDLK_a:
-					camera.move(-5, 0);
+					//camera.move(-5, 0);
 					break;
 				}
 			}
@@ -36,7 +36,6 @@ void Game::start() {
 		//Render the scene
 		if (renderer != nullptr) {
 			SDL_RenderClear(renderer);
-			camera.render(0, 0, spriteBG, "background");
 			SDL_RenderPresent(renderer);
 		}
 		else {
