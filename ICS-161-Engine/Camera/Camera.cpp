@@ -25,7 +25,13 @@ int Camera::getY(){
 	return camera.x;
 }
 
-
+//moves camera by x and y units
+//@param xdelta an int
+//@param ydelta an int
+void Camera::move(int xdelta, int ydelta){
+	camera.x += xdelta;
+	camera.y += ydelta;
+}
 
 //sets coordinates of camera at x and y
 //@param x an int
@@ -39,8 +45,8 @@ void Camera::setPos(int x, int y){
 //@param incr how many pixels to move each call
 //@param levelW width of the level
 //@param screenW width of the screen
-void Camera::scrollX(int incr, int levelW, int screenW){
-	if (camera.x < levelW - screenW){
+void Camera::scrollX(int incr, int levelW){
+	if (camera.x < levelW - camera.w){
 		camera.x += incr;
 	}
 }
@@ -48,8 +54,8 @@ void Camera::scrollX(int incr, int levelW, int screenW){
 //@param incr how many pixels to move each call
 //@param levelH height of the level
 //@param screenH height of the screen
-void Camera::scrollY(int incr, int levelH, int screenH){
-	if (camera.y < levelH - screenH){
+void Camera::scrollY(int incr, int levelH){
+	if (camera.y < levelH - camera.h){
 		camera.y += incr;
 	}
 }

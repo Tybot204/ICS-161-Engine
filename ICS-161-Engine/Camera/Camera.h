@@ -15,10 +15,12 @@ public:
 	int getY();
 
 	//scrolls through a level by the x axis
-	void scrollX(int incr, int levelW, int screenW);
+	void scrollX(int incr, int levelW);
 	//scrolls through a level by the y axis
-	void scrollY(int incr, int levelH, int screenH);
+	void scrollY(int incr, int levelH);
 
+	//moves the camera by x and y pixels
+	void move(int deltax, int deltay);
 	//sets coordinates of camera at x and y
 	void setPos(int x, int y);
 
