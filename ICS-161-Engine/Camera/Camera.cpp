@@ -24,14 +24,6 @@ int Camera::getY(){
 	return camera.y;
 }
 
-//moves camera by x and y units
-//@param xdelta an int
-//@param ydelta an int
-//void Camera::move(int xdelta, int ydelta){
-//	camera.x += xdelta;
-//	camera.y += ydelta;
-//}
-
 //sets coordinates of camera at x and y
 //@param x an int
 //@param y an int
