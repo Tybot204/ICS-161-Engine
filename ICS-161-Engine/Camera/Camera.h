@@ -1,8 +1,7 @@
 #pragma once
-#include "SDL.h"
-#include "Sprite.h"
 
-
+#include <SDL.h>
+#include "../Sprite/Sprite.h"
 
 class Camera{
 public:
@@ -26,7 +25,6 @@ public:
 
 	//keeps from going outside the level
 	void fixCameraPosition(int levelwidth, int levelheight);
-
 
 private:
 	SDL_Rect camera;
