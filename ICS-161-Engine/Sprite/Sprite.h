@@ -22,11 +22,11 @@ struct std::hash<std::pair<std::string, std::string>>
 };
 
 typedef std::pair<double, double> Vector;
+typedef std::pair<std::string, std::string> Sequence;
 
 class Sprite
 {
 public:
-	typedef std::pair<std::string, std::string> Sequence;
 
 	Sprite(double currX, double currY, std::string file, SDL_Renderer* ren);
 	~Sprite(void);
