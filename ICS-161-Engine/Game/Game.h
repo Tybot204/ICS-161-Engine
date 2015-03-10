@@ -12,7 +12,7 @@
 #include "../Sprite/Sprite.h"
 #include "../Json/json.h"
 #include "../Camera/Camera.h"
-#include "../Level.h"
+#include "../Level/Level.h"
 
 // Engine-wide constants
 const int SCREEN_WIDTH = 640;
@@ -33,7 +33,7 @@ public:
 	void setWindow(SDL_Window* window, SDL_Renderer* renderer);
 
 private:
-	Json::Value currentLevel;
+	Level* currentLevel;
 	SDL_Renderer* renderer;
 	SDL_Window* window;
 

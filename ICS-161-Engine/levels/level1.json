@@ -1,0 +1,5 @@
+{
+    "sprites": [
+        { "0": [ { "filename": "Lea.txt" }, { "sequence": "run right" }, { "currY": 50 }, { "currX": 50 } ] }
+    ]
+}

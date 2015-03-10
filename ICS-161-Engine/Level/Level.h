@@ -12,7 +12,7 @@
 
 class Level{
 public:
-	Level(std::vector<std::pair<Sprite*, Sequence>> offScreenSprites, int level_width, int level_height);
+	Level(std::vector<std::pair<Sprite*, Sequence>> sprites, int level_width, int level_height);
 	~Level();
 
 	//render images in camera frustrum

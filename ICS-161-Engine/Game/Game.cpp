@@ -57,7 +57,7 @@ void Game::start() {
 }
 
 bool Game::load(std::string filename) {
-	std::ifstream ifs(filename);
+	std::ifstream ifs("levels/" + filename);
 	std::string json((std::istreambuf_iterator<char>(ifs)), (std::istreambuf_iterator<char>()));
 	Json::Value root;
 	Json::Reader reader;
@@ -66,7 +66,15 @@ bool Game::load(std::string filename) {
 		std::cout << "Failed to load level" << std::endl;
 		return false;
 	}
-	currentLevel = root;
+
+	std::vector<std::pair<Sprite*, Sequence>> sprites;
+	for (int i = 0; i < root["sprites"].size(); i++){
+		Sprite* sprite = new Sprite(root["sprites"][i]["currX"].asDouble(), root["sprites"][i]["currY"].asDouble(), root["sprites"][i]["filename"].asString(), renderer);
+		Sequence sequence = std::make_pair(root["sprites"][i]["sequence"].asString(), root["sprites"][i]["sequence"].asString());
+		sprites.push_back(std::make_pair(sprite, sequence));
+	}
+	currentLevel = new Level(sprites, root["levelWidth"].asInt(), root["levelHeight"].asInt());
+
 	return true;
 }
 
