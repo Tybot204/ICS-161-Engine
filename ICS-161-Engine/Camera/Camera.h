@@ -1,8 +1,6 @@
 #pragma once
-#include "SDL.h"
+#include <SDL.h>
 #include "../Sprite/Sprite.h"
-
-
 
 class Camera{
 public:
