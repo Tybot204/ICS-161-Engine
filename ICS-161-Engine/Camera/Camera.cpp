@@ -1,9 +1,9 @@
 #include "Camera.h"
 #include <iostream>
 
-Camera::Camera(SDL_Rect rect){
+Camera::Camera(SDL_Renderer* renderer, SDL_Rect rect){
 	this->camera = rect;
-
+	this->renderer = renderer;
 }
 
 Camera::~Camera(){};
@@ -76,4 +76,18 @@ void Camera::fixCameraPosition(int levelwidth, int levelheight){
 	if (camera.y > levelheight - camera.h){
 		camera.y = levelheight - camera.y;
 	}
+}
+
+void Camera::render(int x, int y, SDL_Texture* texture){
+	//set rendering space and render to screen
+	SDL_Rect renderQuad = { x, y, camera.w, camera.h };
+
+	//set clip rendering dimensions
+	if (&camera != NULL){
+		renderQuad.w = camera.w;
+		renderQuad.h = camera.h;
+	}
+
+	//render to screen
+	SDL_RenderCopy(renderer, texture, &camera, &renderQuad);
 }
