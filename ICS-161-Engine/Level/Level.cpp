@@ -63,7 +63,7 @@ void Level::render_on_screen(Camera* camera)
 		}
 		else
 		{
-			onScreenSprites_[i].first->show(onScreenSprites_[i].second.first, 0);
+			onScreenSprites_[i].first->show(onScreenSprites_[i].second.first, 1);
 		}
 	}
 	player_->show();

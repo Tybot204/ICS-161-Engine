@@ -13,7 +13,7 @@ public:
 	~Player();
 
 	void attachCamera(Camera* camera);
-	void move();
+	void move(int deltaX, int deltaY);
 	void show();
 
 private:

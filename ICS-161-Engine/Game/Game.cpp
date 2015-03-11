@@ -23,16 +23,16 @@ void Game::start() {
 			if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym) {
 				case SDLK_w:
-					camera->move(0, -5);
+					player->move(0, -5);
 					break;
 				case SDLK_d:
-					camera->move(5, 0);
+					player->move(5, 0);
 					break;
 				case SDLK_s:
-					camera->move(0, 5);
+					player->move(0, 5);
 					break;
 				case SDLK_a:
-					camera->move(-5, 0);
+					player->move(-5, 0);
 					break;
 				}
 			}
@@ -43,6 +43,8 @@ void Game::start() {
 			SDL_RenderClear(renderer);
 			SDL_Rect dst = { 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT };
 			SDL_RenderCopy(renderer, background, NULL, &dst);
+			currentLevel->on_screen_check(camera);
+			currentLevel->render_on_screen(camera);
 			SDL_RenderPresent(renderer);
 		}
 		else {
@@ -68,14 +70,28 @@ bool Game::load(std::string filename) {
 		return false;
 	}
 
+	std::cout << "JSON File Contents:" << std::endl;
+	std::cout << "Player" << std::endl;
+	std::cout << "    filename: " << root["player"]["filename"].asString() << std::endl;
+	std::cout << "    currX: " << root["player"]["currX"].asDouble() << std::endl;
+	std::cout << "    currY: " << root["player"]["currY"].asDouble() << std::endl;
+	std::cout << "    sequence: " << root["player"]["sequence"].asString() << std::endl;
+	for (int i = 0; i < root["sprites"].size(); i++) {
+		std::cout << "Sprite-" << i << std::endl;
+		std::cout << "    filename: " << root["sprites"][i]["filename"].asString() << std::endl;
+		std::cout << "    currX: " << root["sprites"][i]["currX"].asDouble() << std::endl;
+		std::cout << "    currY: " << root["sprites"][i]["currY"].asDouble() << std::endl;
+		std::cout << "    sequence: " << root["sprites"][i]["sequence"].asString() << std::endl;
+	}
+
 	std::vector<std::pair<Sprite*, Sequence>> sprites = {};
-	for (int i = 0; i < root["sprites"].size(); i++){
-		Sprite* sprite = new Sprite(root["sprites"][i]["currX"].asDouble(), root["sprites"][i]["currY"].asDouble(), root["sprites"][i]["filename"].asString(), renderer);
+	for (int i = 0; i < root["sprites"].size(); i++) {
+		Sprite* sprite = new Sprite(root["sprites"][i]["currX"].asDouble(), root["sprites"][i]["currY"].asDouble(), "assets/" + root["sprites"][i]["filename"].asString(), renderer);
 		Sequence sequence = std::make_pair(root["sprites"][i]["sequence"].asString(), root["sprites"][i]["sequence"].asString());
 		sprites.push_back(std::make_pair(sprite, sequence));
 	}
 
-	player = new Player(new Sprite(root["player"][1]["currX"].asDouble(), root["player"][2]["currY"].asDouble(), root["player"][0]["filename"].asString(), renderer));
+	player = new Player(new Sprite(root["player"]["currX"].asDouble(), root["player"]["currY"].asDouble(), "assets/" + root["player"]["filename"].asString(), renderer));
 	currentLevel = new Level(player, sprites, root["levelWidth"].asInt(), root["levelHeight"].asInt());
 
 	return true;

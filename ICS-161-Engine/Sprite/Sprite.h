@@ -4,6 +4,7 @@
 #include "SDL_image.h"
 #include <vector>
 #include <unordered_map>
+#include <iostream>
 
 // Simple hash function for pairs of strings
 template <>
