@@ -48,7 +48,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug;C:\Users\Roldan\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug;C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
