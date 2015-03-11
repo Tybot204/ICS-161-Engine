@@ -86,12 +86,12 @@ bool Game::load(std::string filename) {
 
 	std::vector<std::pair<Sprite*, Sequence>> sprites = {};
 	for (int i = 0; i < root["sprites"].size(); i++) {
-		Sprite* sprite = new Sprite(root["sprites"][i]["currX"].asDouble(), root["sprites"][i]["currY"].asDouble(), "assets/" + root["sprites"][i]["filename"].asString(), renderer);
+		Sprite* sprite = new Sprite(root["sprites"][i]["currX"].asDouble(), root["sprites"][i]["currY"].asDouble(), "assets\\" + root["sprites"][i]["filename"].asString(), renderer);
 		Sequence sequence = std::make_pair(root["sprites"][i]["sequence"].asString(), root["sprites"][i]["sequence"].asString());
 		sprites.push_back(std::make_pair(sprite, sequence));
 	}
 
-	player = new Player(new Sprite(root["player"]["currX"].asDouble(), root["player"]["currY"].asDouble(), "assets/" + root["player"]["filename"].asString(), renderer));
+	player = new Player(new Sprite(root["player"]["currX"].asDouble(), root["player"]["currY"].asDouble(), "assets\\" + root["player"]["filename"].asString(), renderer));
 	currentLevel = new Level(player, sprites, root["levelWidth"].asInt(), root["levelHeight"].asInt());
 
 	return true;

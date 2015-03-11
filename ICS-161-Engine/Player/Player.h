@@ -19,5 +19,6 @@ public:
 private:
 	Sprite* sprite;
 	Camera* camera;
+	std::string sequence;
 
 };

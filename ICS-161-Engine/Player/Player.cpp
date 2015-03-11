@@ -2,6 +2,7 @@
 
 Player::Player(Sprite* sprite) {
 	this->sprite = sprite;
+	sequence = "stand right";
 }
 
 Player::~Player() {
@@ -14,11 +15,23 @@ void Player::attachCamera(Camera* camera) {
 }
 
 void Player::move(int deltaX, int deltaY) {
+	if (deltaX > 0) {
+		sequence = "run right";
+	}
+	else if (deltaX < 0) {
+		sequence = "run left";
+	}
+	else if (deltaY > 0) {
+		sequence = "descend left";
+	}
+	else if (deltaY < 0) {
+		sequence = "rise right";
+	}
 	camera->move(deltaX, deltaY);
 	sprite->movex(deltaX);
 	sprite->movey(deltaY);
 }
 
 void Player::show() {
-	sprite->show("run right", 1);
+	sprite->show(sequence, 1);
 }
