@@ -1,8 +1,7 @@
 #include "Player.h"
 
-Player::Player(Sprite* sprite, Camera* camera) {
+Player::Player(Sprite* sprite) {
 	this->sprite = sprite;
-	this->camera = camera;
 }
 
 Player::~Player() {
@@ -10,6 +9,14 @@ Player::~Player() {
 	delete camera;
 }
 
+void Player::attachCamera(Camera* camera) {
+	this->camera = camera;
+}
+
 void Player::move() {
 
+}
+
+void Player::show() {
+	sprite->show("run right", 0);
 }

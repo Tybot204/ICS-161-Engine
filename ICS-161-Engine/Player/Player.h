@@ -1,7 +1,7 @@
 #pragma once
 
 // SDL and c++ header files
-#include <iostream>
+#include <vector>
 
 // Custom engine header files
 #include "../Camera/Camera.h"
@@ -9,10 +9,12 @@
 
 class Player{
 public:
-	Player(Sprite* sprite, Camera* camera);
+	Player(Sprite* sprite);
 	~Player();
 
+	void attachCamera(Camera* camera);
 	void move();
+	void show();
 
 private:
 	Sprite* sprite;

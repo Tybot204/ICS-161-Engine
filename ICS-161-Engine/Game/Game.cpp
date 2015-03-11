@@ -11,7 +11,8 @@ void Game::start() {
 	const std::string resPath = "assets\\";
 	SDL_Texture* background = IMG_LoadTexture(renderer, (resPath + "res/Background.png").c_str());
 
-	Camera camera = Camera(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
+	Camera* camera = new Camera(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
+	player->attachCamera(camera);
 
 	SDL_Event e;
 	bool quit = false;
@@ -22,16 +23,16 @@ void Game::start() {
 			if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym) {
 				case SDLK_w:
-					camera.move(0, -5);
+					camera->move(0, -5);
 					break;
 				case SDLK_d:
-					camera.move(5, 0);
+					camera->move(5, 0);
 					break;
 				case SDLK_s:
-					camera.move(0, 5);
+					camera->move(0, 5);
 					break;
 				case SDLK_a:
-					camera.move(-5, 0);
+					camera->move(-5, 0);
 					break;
 				}
 			}
@@ -67,13 +68,15 @@ bool Game::load(std::string filename) {
 		return false;
 	}
 
-	std::vector<std::pair<Sprite*, Sequence>> sprites;
+	std::vector<std::pair<Sprite*, Sequence>> sprites = {};
 	for (int i = 0; i < root["sprites"].size(); i++){
 		Sprite* sprite = new Sprite(root["sprites"][i]["currX"].asDouble(), root["sprites"][i]["currY"].asDouble(), root["sprites"][i]["filename"].asString(), renderer);
 		Sequence sequence = std::make_pair(root["sprites"][i]["sequence"].asString(), root["sprites"][i]["sequence"].asString());
 		sprites.push_back(std::make_pair(sprite, sequence));
 	}
-	currentLevel = new Level(sprites, root["levelWidth"].asInt(), root["levelHeight"].asInt());
+
+	player = new Player(new Sprite(root["player"][1]["currX"].asDouble(), root["player"][2]["currY"].asDouble(), root["player"][0]["filename"].asString(), renderer));
+	currentLevel = new Level(player, sprites, root["levelWidth"].asInt(), root["levelHeight"].asInt());
 
 	return true;
 }

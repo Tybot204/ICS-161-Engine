@@ -1,7 +1,8 @@
 #include "Level.h"
 
-Level::Level(std::vector<std::pair<Sprite*, Sequence>> offScreenSprites, int level_width, int level_height)
+Level::Level(Player* player, std::vector<std::pair<Sprite*, Sequence>> offScreenSprites, int level_width, int level_height)
 {
+	player_ = player;
 	offScreenSprites_ = offScreenSprites;
 	level_width_ = level_width;
 	level_height_ = level_height;
@@ -65,6 +66,7 @@ void Level::render_on_screen(Camera* camera)
 			onScreenSprites_[i].first->show(onScreenSprites_[i].second.first, 0);
 		}
 	}
+	player_->show();
 }
 
 int Level::get_level_width()

@@ -37,5 +37,6 @@ private:
 	Level* currentLevel;
 	SDL_Renderer* renderer;
 	SDL_Window* window;
+	Player* player;
 
 };
