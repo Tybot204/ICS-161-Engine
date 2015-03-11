@@ -11,7 +11,7 @@ void Game::start() {
 	const std::string resPath = "assets\\";
 	SDL_Texture* background = IMG_LoadTexture(renderer, (resPath + "res/Background.png").c_str());
 
-	Camera* camera = new Camera(SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
+	Camera* camera = new Camera(renderer, SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
 	player->attachCamera(camera);
 
 	SDL_Event e;
@@ -41,8 +41,7 @@ void Game::start() {
 		//Render the scene
 		if (renderer != nullptr) {
 			SDL_RenderClear(renderer);
-			SDL_Rect dst = { 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT };
-			SDL_RenderCopy(renderer, background, NULL, &dst);
+			camera->render(0, 0, background);
 			currentLevel->on_screen_check(camera);
 			currentLevel->render_on_screen(camera);
 			SDL_RenderPresent(renderer);

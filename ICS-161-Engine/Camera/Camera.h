@@ -5,7 +5,7 @@
 
 class Camera{
 public:
-	Camera(SDL_Rect rect);
+	Camera(SDL_Renderer* renderer,SDL_Rect rect);
 	~Camera();
 
 	//return camera dimensions;
@@ -24,9 +24,12 @@ public:
 	//sets coordinates of camera at x and y
 	void setPos(int x, int y);
 
+	void render(int x, int y, SDL_Texture* texture);
+
 	//keeps from going outside the level
 	void fixCameraPosition(int levelwidth, int levelheight);
 
 private:
+	SDL_Renderer* renderer;
 	SDL_Rect camera;
 };
