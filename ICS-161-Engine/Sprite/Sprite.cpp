@@ -186,7 +186,7 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 					addFrameToSequence(sequence, makeFrame(surf, params[0], params[1], params[2], params[3], params[4], params[5], 1, hitboxes));
 				if (params[6] <= 0)
 					addFrameToSequence(sequence, makeFrame(surf, params[0], params[1], params[2], params[3], params[4], params[5], 0, hitboxes));
-				hitboxes = std::vector<SDL_Rect>();
+				hitboxes.clear();
 			}
 		}
 	}
@@ -235,6 +235,8 @@ int Sprite::makeFrame(SDL_Surface* surface, int x, int y, int w, int h, int offX
 
 int Sprite::addFrameToSequence(std::pair<std::string, std::string> seqName, int frameIndex)
 {
+	if (currentSequence == std::make_pair(std::string(""), std::string("")))
+		currentSequence = seqName;
 	sequenceList[seqName].push_back(frameIndex);
 	return sequenceList[seqName].size();
 }
@@ -268,6 +270,12 @@ void Sprite::setRight(double right)
 {
 	SDL_Rect boundary = getBoundary();
 	movex(right - (boundary.x + boundary.w));
+}
+
+SDL_Rect Sprite::getDrawBoundary() const
+{
+	frame f = getCurrentFrame();
+	return{ (int)position.first - f.offsetX, (int)position.second - f.offsetY, f.coordinates.w, f.coordinates.h };
 }
 
 SDL_Rect Sprite::getBoundary() const
@@ -347,7 +355,7 @@ void Sprite::show(std::string sequence, int hitboxes)
 	}
 	show(frame_num, hitboxes);
 	sequenceIndex += frames[frame_num].advance;
-	while (sequence != currentSequence.second || (unsigned int)sequenceIndex >= sequenceList[currentSequence].size())
+	while ((unsigned int)sequenceIndex >= sequenceList[currentSequence].size())
 	{
 		currentSequence.first = currentSequence.second;
 		currentSequence.second = sequence;
@@ -429,7 +437,7 @@ double Sprite::getAY() const
 	return acceleration.second;
 }
 
-bool collide(Sprite& a, Sprite& b)
+bool collide(const Sprite& a, const Sprite& b)
 {
 	for (SDL_Rect hba : a.getHitboxes())
 		for (SDL_Rect hbb : b.getHitboxes())
