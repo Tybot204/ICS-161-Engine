@@ -13,6 +13,7 @@
 #include "../Json/json.h"
 #include "../Camera/Camera.h"
 #include "../Level/Level.h"
+#include "../Player/Player.h"
 
 // Engine-wide constants
 const int SCREEN_WIDTH = 640;
