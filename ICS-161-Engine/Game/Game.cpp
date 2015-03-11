@@ -44,6 +44,7 @@ void Game::start() {
 			camera->render(0, 0, background);
 			currentLevel->on_screen_check(camera);
 			currentLevel->render_on_screen(camera);
+			camera->fixCameraPosition(LEVEL_WIDTH, LEVEL_HEIGHT);
 			SDL_RenderPresent(renderer);
 		}
 		else {

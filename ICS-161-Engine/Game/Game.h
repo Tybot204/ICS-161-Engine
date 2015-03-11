@@ -19,8 +19,8 @@
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 // Temporary constants, should be moved to the JSON file
-const int LEVEL_WIDTH = 2000;
-const int LEVEL_HEIGHT = 700;
+const int LEVEL_WIDTH = 1280;
+const int LEVEL_HEIGHT = 960;
 
 class Game{
 public:
