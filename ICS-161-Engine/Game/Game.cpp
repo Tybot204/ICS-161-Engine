@@ -41,7 +41,7 @@ void Game::start() {
 		//Render the scene
 		if (renderer != nullptr) {
 			SDL_RenderClear(renderer);
-			SDL_Rect dst = { 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT };
+			SDL_Rect dst = { 0, 0, currentLevel->get_level_width(), currentLevel->get_level_height() };
 			SDL_RenderCopy(renderer, background, NULL, &dst);
 			currentLevel->on_screen_check(camera);
 			currentLevel->render_on_screen(camera);
