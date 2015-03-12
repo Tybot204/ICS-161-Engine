@@ -45,6 +45,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\Chris\Desktop\SDL\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -58,6 +59,14 @@
       <AdditionalLibraryDirectories>C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\SDL2_ttf-2.0.12\lib\x86;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\SDL2_image-2.0.0\lib\x86;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug;</AdditionalLibraryDirectories>
 >>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+=======
+      <AdditionalIncludeDirectories>C:\Users\Anthony\Desktop\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Anthony\Desktop\SDL2-2.0.3\VisualC\SDL\Win32\Debug;C:\Users\Anthony\Desktop\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+>>>>>>> 4199e0847fcd36007e4bc69d6804ffbb07ddc7b2
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -88,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\AudioManager.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Collision\Collision.cpp" />
     <ClCompile Include="Game\Game.cpp" />
@@ -102,6 +112,7 @@
     <ClCompile Include="Sprite\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\AudioManager.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Collision\Collision.h" />
     <ClInclude Include="Game\Game.h" />
