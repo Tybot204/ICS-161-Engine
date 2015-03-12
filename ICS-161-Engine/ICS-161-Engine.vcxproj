@@ -72,6 +72,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\AudioManager.cpp" />
     <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="Collision\Collision.cpp" />
     <ClCompile Include="Game\Game.cpp" />
@@ -82,6 +83,7 @@
     <ClCompile Include="Sprite\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\AudioManager.h" />
     <ClInclude Include="Camera\Camera.h" />
     <ClInclude Include="Collision\Collision.h" />
     <ClInclude Include="Game\Game.h" />

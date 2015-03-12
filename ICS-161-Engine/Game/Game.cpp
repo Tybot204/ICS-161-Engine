@@ -20,6 +20,11 @@ void Game::start() {
 	ss << score;
 	std::string num = ss.str();
 
+	AudioManager::getInstance()->loadMusic(resPath + "22 - Proto Mans Theme (Ending).mp3");
+	AudioManager::getInstance()->playMusic();
+	AudioManager::getInstance()->loadSound("blast", resPath + "blast.wav");
+	AudioManager::getInstance()->loadSound("pew", resPath + "Mega_Man_II_Sound_Effects_-_Arm_Cannon.wav");
+
 	SDL_Event e;
 	bool quit = false;
 	while (!quit) {
@@ -29,9 +34,11 @@ void Game::start() {
 			if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym) {
 				case SDLK_w:
+					AudioManager::getInstance()->playSound("blast", 0);
 					player->move(0, -5);
 					break;
 				case SDLK_d:
+					AudioManager::getInstance()->playSound("pew", 0);
 					player->move(5, 0);
 					break;
 				case SDLK_s:
