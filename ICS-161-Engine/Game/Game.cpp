@@ -1,5 +1,9 @@
 #include "Game.h"
 
+
+#include "../Message/Message.h"
+
+
 Game::Game() {}
 Game::~Game() {}
 
@@ -16,19 +20,37 @@ void Game::start() {
 			if (e.type == SDL_QUIT)
 				quit = true;
 			if (e.type == SDL_KEYDOWN){
+				enum movement_choices {UP, DOWN, LEFT, RIGHT};
+				movement_choices key_press = UP;
 				switch (e.key.keysym.sym){
 				case SDLK_w:
+				{
+					key_press = UP;
+					Message up_movement(camera,1);
 					//camera.move(0, -5);
 					break;
+				}
 				case SDLK_d:
+				{
+					key_press = DOWN;
+					Message down_movement(camera,2);
 					//camera.move(5, 0);
 					break;
+				}
 				case SDLK_s:
+				{
+					key_press = LEFT;
+					Message left_movement(camera,3);
 					//camera.move(0, 5);
 					break;
+				}
 				case SDLK_a:
+				{
+					key_press = RIGHT;
+					Message right_movement(camera,4);
 					//camera.move(-5, 0);
 					break;
+				}
 				}
 			}
 		}
