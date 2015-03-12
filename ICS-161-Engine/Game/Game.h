@@ -14,6 +14,7 @@
 #include "../Camera/Camera.h"
 #include "../Level/Level.h"
 #include "../Player/Player.h"
+#include "../Collision/Collision.h"
 
 // Engine-wide constants
 const int SCREEN_WIDTH = 640;

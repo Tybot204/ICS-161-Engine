@@ -15,6 +15,7 @@ public:
 	void attachCamera(Camera* camera);
 	void move(int deltaX, int deltaY);
 	void show();
+	Sprite* Player::returnSprite();
 
 private:
 	Sprite* sprite;
