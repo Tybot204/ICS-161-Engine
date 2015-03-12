@@ -18,11 +18,17 @@ Game::~Game() {}
 void Game::start() {
 	const std::string resPath = "assets\\";
 	SDL_Texture* background = IMG_LoadTexture(renderer, (resPath + "res/land.png").c_str());
-	Sprite* fire = new Sprite(250, 250, resPath + "fire.txt", renderer);
 	Sprite* health = new Sprite(0, 0, resPath + "number.txt", renderer);
 	Camera* camera = new Camera(renderer, SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
 	player->attachCamera(camera);
-	fire->setAX(proj_accelX);
+	Sprite* fire = nullptr;
+
+	for (Sprite* sprite : currentLevel->get_all_sprites()) {
+		if (sprite->name == "fire") {
+			fire = sprite;
+			fire->setAX(proj_accelX);
+		}
+	}
 	int score = 9;
 	std::stringstream ss;
 	ss << score;
