@@ -1,6 +1,7 @@
 {
     "player": { "filename": "Lea.txt", "sequence": "run right", "currY": 200, "currX": 50 },
     "sprites": [
+        { "filename": "fire.txt", "sequence": "fire", "currY":  250, "currX":  250 },
         { "filename": "Lea.txt", "sequence": "stand right", "currY": 50, "currX": 50 },
         { "filename": "Lea.txt", "sequence": "stand left", "currY": 50, "currX": 500 },
         { "filename": "Lea.txt", "sequence": "stand right", "currY": 70, "currX": 540 },

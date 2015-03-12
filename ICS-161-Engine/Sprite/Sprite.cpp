@@ -191,7 +191,8 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 		}
 	}
 	input.close();
-	name = file.substr(0, file.find("."));
+	std::string file_name = file.substr(file.find("\\") + 1, file.find("."));
+	name = file_name.substr(0, file_name.find("."));
 }
 
 Sprite::~Sprite(void)
