@@ -191,6 +191,7 @@ Sprite::Sprite(double currX, double currY, std::string file, SDL_Renderer* ren)
 		}
 	}
 	input.close();
+	name = file.substr(0, file.find("."));
 }
 
 Sprite::~Sprite(void)

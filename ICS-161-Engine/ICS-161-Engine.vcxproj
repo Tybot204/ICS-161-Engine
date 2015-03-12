@@ -46,6 +46,7 @@
       <SDLCheck>true</SDLCheck>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\Chris\Desktop\SDL\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -67,6 +68,14 @@
       <AdditionalLibraryDirectories>C:\Users\Anthony\Desktop\SDL2-2.0.3\VisualC\SDL\Win32\Debug;C:\Users\Anthony\Desktop\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
 >>>>>>> 4199e0847fcd36007e4bc69d6804ffbb07ddc7b2
+=======
+      <AdditionalIncludeDirectories>C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\SDL2_ttf-2.0.12\lib\x86;C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\SDL2_image-2.0.0\lib\x86;C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug;C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+>>>>>>> 27499cd2faf417948ec08728f0936321a4917b83
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

@@ -21,6 +21,7 @@ public:
 	void render_on_screen(Camera* camera);
 	int get_level_width();
 	int get_level_height();
+	std::vector<Sprite*> get_all_sprites();
 
 private:
 	std::vector<std::pair<Sprite*, Sequence>> onScreenSprites_;
