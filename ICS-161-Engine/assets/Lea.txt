@@ -1,0 +1,121 @@
+? FW = 480
+? W = 32
+? H = 32
+$f = res\Lea.png
+: run right
+!7,0,18,31
+3*W,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+4*W,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+5*W,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+6*W,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+7*W,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+8*W,2*H,W,H,W/2,H/2,5
+> run right : stand right
+!7,0,18,31
+9*W,2*H,W,H,W/2,H/2,4
+!7,0,18,31
+10*W,2*H,W,H,W/2,H/2,4
+!7,0,18,31
+11*W,2*H,W,H,W/2,H/2,4
+: stand right
+!7,0,18,31
+14*W,14*H,W,H,W/2,H/2,0
+> stand right : run right
+!7,0,18,31
+0,2*H,W,H,W/2,H/2,4
+!7,0,18,31
+1*W,2*H,W,H,W/2,H/2,4
+!7,0,18,31
+2*W,2*H,W,H,W/2,H/2,4
+: walk right
+!7,0,18,31
+15*W,14*H,W,H,W/2,H/2,8
+!7,0,18,31
+0,2*H,W,H,W/2,H/2,8
+!7,0,18,31
+1*W,2*H,W,H,W/2,H/2,8
+!7,0,18,31
+2*W,2*H,W,H,W/2,H/2,8
+!7,0,18,31
+13*W,14*H,W,H,W/2,H/2,8
+!7,0,18,31
+14*W,14*H,W,H,W/2,H/2,8
+: rise right
+!7,0,18,31
+7*W,7*H,W,H,W/2,H/2,0
+: descend right
+!7,0,18,31
+8*W,7*H,W,H,W/2,H/2,0
+> descend right : stand right
+!7,0,18,31
+11*W,2*H,W,H,W/2,H/2,6
+> descend right : walk right
+!7,0,18,31
+11*W,2*H,W,H,W/2,H/2,6
+> descend right : run right
+!7,0,18,31
+11*W,2*H,W,H,W/2,H/2,6
+$f = res\LeaL.png
+: run left
+!7,0,18,31
+-3*W+FW,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+-4*W+FW,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+-5*W+FW,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+-6*W+FW,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+-7*W+FW,2*H,W,H,W/2,H/2,5
+!7,0,18,31
+-8*W+FW,2*H,W,H,W/2,H/2,5
+> run left : stand left
+!7,0,18,31
+-9*W+FW,2*H,W,H,W/2,H/2,4
+!7,0,18,31
+-10*W+FW,2*H,W,H,W/2,H/2,4
+!7,0,18,31
+-11*W+FW,2*H,W,H,W/2,H/2,4
+: stand left
+!7,0,18,31
+-14*W+FW,14*H,W,H,W/2,H/2,0
+> stand left : run left
+!7,0,18,31
+FW,2*H,W,H,W/2,H/2,4
+!7,0,18,31
+-1*W+FW,2*H,W,H,W/2,H/2,4
+!7,0,18,31
+-2*W+FW,2*H,W,H,W/2,H/2,4
+: walk left
+!7,0,18,31
+-15*W+FW,14*H,W,H,W/2,H/2,8
+!7,0,18,31
+-0+FW,2*H,W,H,W/2,H/2,8
+!7,0,18,31
+-1*W+FW,2*H,W,H,W/2,H/2,8
+!7,0,18,31
+-2*W+FW,2*H,W,H,W/2,H/2,8
+!7,0,18,31
+-13*W+FW,14*H,W,H,W/2,H/2,8
+!7,0,18,31
+-14*W+FW,14*H,W,H,W/2,H/2,8
+: rise left
+!7,0,18,31
+-7*W+FW,7*H,W,H,W/2,H/2,0
+: descend left
+!7,0,18,31
+-8*W+FW,7*H,W,H,W/2,H/2,0
+> descend left : stand left
+!7,0,18,31
+-11*W+FW,2*H,W,H,W/2,H/2,6
+> descend left : walk left
+!7,0,18,31
+-11*W+FW,2*H,W,H,W/2,H/2,6
+> descend left : run left
+!7,0,18,31
+-11*W+FW,2*H,W,H,W/2,H/2,6

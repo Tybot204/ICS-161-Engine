@@ -1,8 +1,0 @@
-{
-    "level":  "background.png",
-    "player": {
-        "file": ["playerUp.png", "playerLeft.png", "playerRight.png", "playerDown.png"],
-        "x": "100",
-        "y": "800"
-    }
-}

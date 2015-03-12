@@ -12,14 +12,20 @@
 #include "../Sprite/Sprite.h"
 #include "../Json/json.h"
 #include "../Camera/Camera.h"
+#include "../Level/Level.h"
+#include "../Player/Player.h"
+#include "../Collision/Collision.h"
 
 // Engine-wide constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
+// Temporary constants, should be moved to the JSON file
+const int LEVEL_WIDTH = 1280;
+const int LEVEL_HEIGHT = 960;
 
 class Game{
 public:
-	Game();
+	Game(SDL_Window* window, SDL_Renderer* renderer);
 	~Game();
 
 	void start();
@@ -29,8 +35,9 @@ public:
 	void setWindow(SDL_Window* window, SDL_Renderer* renderer);
 
 private:
-	Json::Value currentLevel;
+	Level* currentLevel;
 	SDL_Renderer* renderer;
 	SDL_Window* window;
+	Player* player;
 
 };

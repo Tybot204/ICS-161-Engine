@@ -44,11 +44,19 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\Chris\Desktop\SDL\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\Chris\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug;C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug;C:\Users\Chris\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug</AdditionalLibraryDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\SDL2_ttf-2.0.12\lib\x86;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\SDL2_image-2.0.0\lib\x86;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug;</AdditionalLibraryDirectories>
+>>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -60,7 +68,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\Chris\Desktop\SDL\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+>>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -68,22 +80,35 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+<<<<<<< HEAD
       <AdditionalLibraryDirectories>C:\Users\Chris\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug;C:\Users\Tyler Hogan\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug;C:\Users\Chris\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug</AdditionalLibraryDirectories>
+=======
+      <AdditionalLibraryDirectories>C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\SDL2_ttf-2.0.12\lib\x86;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\SDL2_image-2.0.0\lib\x86;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\VisualC\SDL\Win32\Debug;C:\Users\Danny\Desktop\SDL\SDL2-2.0.3\VisualC\SDLmain\Win32\Debug;</AdditionalLibraryDirectories>
+>>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera\Camera.cpp" />
+    <ClCompile Include="Collision\Collision.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Json\jsoncpp.cpp" />
+    <ClCompile Include="Level\Level.cpp" />
     <ClCompile Include="Main.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Message\Message.cpp" />
+=======
+    <ClCompile Include="Player\Player.cpp" />
+>>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
     <ClCompile Include="Sprite\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Collision\Collision.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Json\json-forwards.h" />
     <ClInclude Include="Json\json.h" />
+    <ClInclude Include="Level\Level.h" />
+    <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Sprite\Sprite.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
