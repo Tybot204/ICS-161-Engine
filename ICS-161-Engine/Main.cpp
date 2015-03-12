@@ -26,6 +26,14 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
+	//Initialize SDL_mixer
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+		SDL_Quit();
+		return 1;
+	}
+
 	SDL_Window* window = SDL_CreateWindow("ICS 161 Game Engine", 800, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	Game game = Game(window, renderer);

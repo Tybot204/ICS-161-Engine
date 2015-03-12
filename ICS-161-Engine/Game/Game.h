@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 
 // SDL and c++ header files
 #include <iostream>
@@ -15,6 +15,7 @@
 #include "../Level/Level.h"
 #include "../Player/Player.h"
 #include "../Collision/Collision.h"
+#include "../Audio/AudioManager.h"
 
 // Engine-wide constants
 const int SCREEN_WIDTH = 640;
