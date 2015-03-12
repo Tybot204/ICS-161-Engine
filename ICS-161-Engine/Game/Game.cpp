@@ -9,11 +9,18 @@ Game::~Game() {}
 
 void Game::start() {
 	const std::string resPath = "assets\\";
-	SDL_Texture* background = IMG_LoadTexture(renderer, (resPath + "res/Background.png").c_str());
-
+	SDL_Texture* background = IMG_LoadTexture(renderer, (resPath + "res/land.png").c_str());
+	//Sprite* spriteBG = new Sprite(0, 0, resPath + "bg.txt", renderer);
+	Sprite* fire = new Sprite(250, 250, resPath + "fire.txt", renderer);
+	Sprite* health = new Sprite(0, 0, resPath + "number.txt", renderer);
 	Camera* camera = new Camera(renderer, SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
 	player->attachCamera(camera);
-
+	fire->setAX(proj_accelX);
+	int col_code = 0;
+	int score = 9;
+	std::stringstream ss;
+	ss << score;
+	std::string num = ss.str();
 	SDL_Event e;
 	bool quit = false;
 	while (!quit) {
@@ -37,11 +44,60 @@ void Game::start() {
 				}
 			}
 		}
+		
+		col_code = checkBounds(fire->getX(), fire->getY(), SCREEN_WIDTH, SCREEN_HEIGHT);
+		if (col_code == 1)
+		{
+			//std::cout << "Bounds : " << col_code << std::endl;
+			fire->setVX(reflectfront[0]);
+			fire->setVY(reflectfront[1]);
+			fire->setAX(reflectfront[2]);
+		}
+		else if (col_code == 2)
+		{
+			//std::cout << "Bounds : " << col_code << std::endl;
+			fire->setVX(reflectback[0]);
+			fire->setVY(reflectback[1]);
+			fire->setAX(reflectback[2]);
+		}
 
+		else if (col_code == 3)
+		{
+			//std::cout << "Bounds : " << col_code << std::endl;
+			fire->setVY(reflecttop[0]);
+			fire->setAX(reflecttop[1]);
+			fire->setAY(reflecttop[2]);
+		}
+
+		else if (col_code == 4)
+		{
+			//std::cout << "Bounds : " << col_code << std::endl;
+			fire->setVY(fire->getVY()*-1);
+			fire->setAY(reflectfront[2]);
+		}
+
+		if (collide(*player->returnSprite(), *fire))
+		{
+			//std::cout << "Collided!" << std::endl;
+			fire->setVY(fire->getVY()*-2);
+			fire->setVX(fire->getVX()*-2);
+			if (score > 0)
+			{
+				score--;
+			}
+
+		}
+		fire->update();
+		std::stringstream ss;
+		ss << score;
+		std::string num = ss.str();
 		//Render the scene
 		if (renderer != nullptr) {
 			SDL_RenderClear(renderer);
 			camera->render(0, 0, background);
+			fire->show("fire", 1);
+			health->show(num, 0);
+			//spriteBG->show("background", 1);
 			currentLevel->on_screen_check(camera);
 			currentLevel->render_on_screen(camera);
 			camera->fixCameraPosition(LEVEL_WIDTH, LEVEL_HEIGHT);

@@ -35,3 +35,8 @@ void Player::move(int deltaX, int deltaY) {
 void Player::show() {
 	sprite->show(sequence, 1);
 }
+
+Sprite* Player::returnSprite()
+{
+	return(this->sprite);
+}
