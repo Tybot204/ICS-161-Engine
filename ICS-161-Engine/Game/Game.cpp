@@ -41,6 +41,7 @@ void Game::start() {
 		//Render the scene
 		if (renderer != nullptr) {
 			SDL_RenderClear(renderer);
+			camera->scrollX(2, LEVEL_WIDTH);
 			camera->render(0, 0, background);
 			currentLevel->on_screen_check(camera);
 			currentLevel->render_on_screen(camera);

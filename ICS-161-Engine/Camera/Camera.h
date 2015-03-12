@@ -24,6 +24,7 @@ public:
 	//sets coordinates of camera at x and y
 	void setPos(int x, int y);
 
+	//render the background
 	void render(int x, int y, SDL_Texture* texture);
 
 	//keeps from going outside the level

@@ -78,6 +78,8 @@ void Camera::fixCameraPosition(int levelwidth, int levelheight){
 	}
 }
 
+
+//renders the backgound
 void Camera::render(int x, int y, SDL_Texture* texture){
 	//set rendering space and render to screen
 	SDL_Rect renderQuad = { x, y, camera.w, camera.h };
