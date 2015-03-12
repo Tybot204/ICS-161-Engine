@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "../Sprite/Sprite.h"
 
 extern double walk_speed;
 extern double run_speed;
@@ -20,7 +21,8 @@ extern std::vector<double> reflecttop;
 
 double setMoveSpeed(double speed, bool left, bool right);
 double setStateSpeed(double speed);
-int checkBounds(double posX, double posY, double screenWidth, double screenHeight);
+void checkBounds(double posX, double posY, double screenWidth, double screenHeight, Sprite *sprite);
+int collisionHit(Sprite *sprite1, Sprite *sprite2, int score);
 std::vector<double> Reflect(std::vector<double> reflect);
 //int setGroundedSpeed(int speed);
 //int setJumpSpeed(int speed);

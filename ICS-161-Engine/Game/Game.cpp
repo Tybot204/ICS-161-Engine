@@ -16,7 +16,6 @@ void Game::start() {
 	Camera* camera = new Camera(renderer, SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
 	player->attachCamera(camera);
 	fire->setAX(proj_accelX);
-	int col_code = 0;
 	int score = 9;
 	std::stringstream ss;
 	ss << score;
@@ -46,48 +45,9 @@ void Game::start() {
 			}
 		}
 
-		col_code = checkBounds(fire->getX(), fire->getY(), SCREEN_WIDTH, SCREEN_HEIGHT);
-		if (col_code == 1)
-		{
-			//std::cout << "Bounds : " << col_code << std::endl;
-			fire->setVX(reflectfront[0]);
-			fire->setVY(reflectfront[1]);
-			fire->setAX(reflectfront[2]);
-		}
-		else if (col_code == 2)
-		{
-			//std::cout << "Bounds : " << col_code << std::endl;
-			fire->setVX(reflectback[0]);
-			fire->setVY(reflectback[1]);
-			fire->setAX(reflectback[2]);
-		}
+		checkBounds(fire->getX(), fire->getY(), SCREEN_WIDTH, SCREEN_HEIGHT, fire);
 
-		else if (col_code == 3)
-		{
-			//std::cout << "Bounds : " << col_code << std::endl;
-			fire->setVY(reflecttop[0]);
-			fire->setAX(reflecttop[1]);
-			fire->setAY(reflecttop[2]);
-		}
-
-		else if (col_code == 4)
-		{
-			//std::cout << "Bounds : " << col_code << std::endl;
-			fire->setVY(fire->getVY()*-1);
-			fire->setAY(reflectfront[2]);
-		}
-
-		if (collide(*player->returnSprite(), *fire))
-		{
-			//std::cout << "Collided!" << std::endl;
-			fire->setVY(fire->getVY()*-2);
-			fire->setVX(fire->getVX()*-2);
-			if (score > 0)
-			{
-				score--;
-			}
-
-		}
+		score = collisionHit(player->returnSprite(), fire, score);
 		fire->update();
 		std::stringstream ss;
 		ss << score;

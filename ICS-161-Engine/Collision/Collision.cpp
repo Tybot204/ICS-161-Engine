@@ -44,29 +44,49 @@ double setBounceSpeed(double speed, std::string event)
 	return speed;
 }
 
-int checkBounds(double posX, double posY, double screenWidth, double screenHeight)
+void checkBounds(double posX, double posY, double screenWidth, double screenHeight, Sprite *sprite)
 {
 	if (posX >= screenWidth)
 	{
-		return 1;
+		sprite->setVX(reflectfront[0]);
+		sprite->setVY(reflectfront[1]);
+		sprite->setAX(reflectfront[2]);
 	}
 
 	else if (posX <= 0)
 	{
-		return 2;
+		sprite->setVX(reflectback[0]);
+		sprite->setVY(reflectback[1]);
+		sprite->setAX(reflectback[2]);
 	}
 
 	else if (posY <= 0)
 	{
-		return 3;
+		sprite->setVY(reflecttop[0]);
+		sprite->setAX(reflecttop[1]);
+		sprite->setAY(reflecttop[2]);
 	}
 
 	else if (posY >= screenHeight)
 	{
-		return 4;
+		sprite->setVY(sprite->getVY()*-1);
+		sprite->setAY(reflectfront[2]);
 	}
 
-	return 0;
+}
+
+int collisionHit(Sprite *sprite1, Sprite *sprite2, int score)
+{
+	if (collide(*sprite1, *sprite2))
+	{
+		sprite2->setVY(sprite2->getVY()*-2);
+		sprite2->setVX(sprite2->getVX()*-2);
+		if (score > 0)
+		{
+			score--;
+		}
+	}
+	return score;
 }
 
 std::vector<double> Reflect(std::vector<double> reflect)
