@@ -28,7 +28,7 @@ void Game::start() {
 	ss << score;
 	std::string num = ss.str();
 
-	AudioManager::getInstance()->loadMusic(resPath + "22 - Proto Mans Theme (Ending).mp3");
+	AudioManager::getInstance()->loadMusic(resPath + "22_-_Proto_Mans_Theme_Ending.wav");
 	AudioManager::getInstance()->playMusic();
 	AudioManager::getInstance()->loadSound("blast", resPath + "blast.wav");
 	AudioManager::getInstance()->loadSound("pew", resPath + "Mega_Man_II_Sound_Effects_-_Arm_Cannon.wav");
