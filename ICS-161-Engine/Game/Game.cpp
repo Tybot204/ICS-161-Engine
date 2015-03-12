@@ -14,6 +14,7 @@ void Game::start() {
 	Camera* camera = new Camera(renderer, SDL_Rect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT });
 	player->attachCamera(camera);
 	Sprite* fire = nullptr;
+
 	for (Sprite* sprite : currentLevel->get_all_sprites()) {
 		if (sprite->name == "fire") {
 			fire = sprite;
