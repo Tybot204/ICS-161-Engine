@@ -9,7 +9,6 @@ Game::~Game() {}
 
 void Game::start() {
 	const std::string resPath = "assets\\";
-	//SDL_Texture* background = IMG_LoadTexture(renderer, (resPath + "res/Background.png").c_str());
 	SDL_Texture* background = IMG_LoadTexture(renderer, (resPath + "res/land.png").c_str());
 	Sprite* fire = new Sprite(250, 250, resPath + "fire.txt", renderer);
 	Sprite* health = new Sprite(0, 0, resPath + "number.txt", renderer);

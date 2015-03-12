@@ -78,3 +78,14 @@ int Level::get_level_height()
 {
 	return level_height_;
 }
+
+std::vector<Sprite*> Level::get_all_sprites() {
+	std::vector<Sprite*> all_sprites;
+	for (std::pair<Sprite*, Sequence> sprite_pair : onScreenSprites_) {
+		all_sprites.push_back(sprite_pair.first);
+	}
+	for (std::pair<Sprite*, Sequence> sprite_pair : offScreenSprites_) {
+		all_sprites.push_back(sprite_pair.first);
+	}
+	return all_sprites;
+}

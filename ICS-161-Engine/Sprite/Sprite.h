@@ -90,6 +90,8 @@ public:
 		}
 	*/
 
+	std::string name;
+
 private:
 
 	SDL_Renderer* renderer;
