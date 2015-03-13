@@ -1,18 +1,10 @@
 #include "Game.h"
 
-<<<<<<< HEAD
-
-#include "../Message/Message.h"
-
-
-Game::Game() {}
-=======
 Game::Game(SDL_Window* window, SDL_Renderer* renderer) {
 	this->window = window;
 	this->renderer = renderer;
 }
 
->>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
 Game::~Game() {}
 
 void Game::start() {
@@ -38,67 +30,45 @@ void Game::start() {
 	AudioManager::getInstance()->playMusic();
 	AudioManager::getInstance()->loadSound("blast", resPath + "blast.wav");
 	AudioManager::getInstance()->loadSound("pew", resPath + "Mega_Man_II_Sound_Effects_-_Arm_Cannon.wav");
-
+	std::vector <Message*> messageVector;
 	SDL_Event e;
 	bool quit = false;
 	while (!quit) {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_QUIT)
 				quit = true;
-<<<<<<< HEAD
-			if (e.type == SDL_KEYDOWN){
-				enum movement_choices {UP, DOWN, LEFT, RIGHT};
-				movement_choices key_press = UP;
-				switch (e.key.keysym.sym){
-				case SDLK_w:
-				{
-					key_press = UP;
-					Message up_movement(camera,1);
-					//camera.move(0, -5);
-=======
 			if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym) {
 				case SDLK_w:
+				{
 					AudioManager::getInstance()->playSound("blast", 0);
-					player->move(0, -5);
->>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
+
+					Message* message = new Message(player, "Up Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
 				}
 				case SDLK_d:
-<<<<<<< HEAD
-<<<<<<< HEAD
 				{
-					key_press = DOWN;
-					Message down_movement(camera,2);
-					//camera.move(5, 0);
-=======
-=======
 					AudioManager::getInstance()->playSound("pew", 0);
->>>>>>> 4199e0847fcd36007e4bc69d6804ffbb07ddc7b2
-					player->move(5, 0);
->>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
+
+					Message* message = new Message(player, "Right Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
 				}
 				case SDLK_s:
-<<<<<<< HEAD
 				{
-					key_press = LEFT;
-					Message left_movement(camera,3);
-					//camera.move(0, 5);
-=======
-					player->move(0, 5);
->>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
+					Message* message = new Message(player, "Down Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
 				}
 				case SDLK_a:
-<<<<<<< HEAD
 				{
-					key_press = RIGHT;
-					Message right_movement(camera,4);
-					//camera.move(-5, 0);
-=======
-					player->move(-5, 0);
->>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
+					Message* message = new Message(player, "Left Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
 				}
 				}
@@ -153,6 +123,7 @@ bool Game::load(std::string filename) {
 	std::cout << "    currX: " << root["player"]["currX"].asDouble() << std::endl;
 	std::cout << "    currY: " << root["player"]["currY"].asDouble() << std::endl;
 	std::cout << "    sequence: " << root["player"]["sequence"].asString() << std::endl;
+
 	for (int i = 0; i < root["sprites"].size(); i++) {
 		std::cout << "Sprite-" << i << std::endl;
 		std::cout << "    filename: " << root["sprites"][i]["filename"].asString() << std::endl;
@@ -162,6 +133,7 @@ bool Game::load(std::string filename) {
 	}
 
 	std::vector<std::pair<Sprite*, Sequence>> sprites = {};
+	
 	for (int i = 0; i < root["sprites"].size(); i++) {
 		Sprite* sprite = new Sprite(root["sprites"][i]["currX"].asDouble(), root["sprites"][i]["currY"].asDouble(), "assets\\" + root["sprites"][i]["filename"].asString(), renderer);
 		Sequence sequence = std::make_pair(root["sprites"][i]["sequence"].asString(), root["sprites"][i]["sequence"].asString());

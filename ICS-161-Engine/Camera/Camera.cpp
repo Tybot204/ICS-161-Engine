@@ -31,11 +31,7 @@ int Camera::getY(){
 void Camera::move(int xdelta, int ydelta){
 	camera.x += xdelta;
 	camera.y += ydelta;
-<<<<<<< HEAD
-//}
-=======
 }
->>>>>>> a355a87c41cf78b2e1085dbd15c71178997726d0
 
 //sets coordinates of camera at x and y
 //@param x an int
