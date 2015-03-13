@@ -30,7 +30,7 @@ void Game::start() {
 	AudioManager::getInstance()->playMusic();
 	AudioManager::getInstance()->loadSound("blast", resPath + "blast.wav");
 	AudioManager::getInstance()->loadSound("pew", resPath + "Mega_Man_II_Sound_Effects_-_Arm_Cannon.wav");
-
+	std::vector <Message*> messageVector;
 	SDL_Event e;
 	bool quit = false;
 	while (!quit) {
@@ -40,19 +40,37 @@ void Game::start() {
 			if (e.type == SDL_KEYDOWN) {
 				switch (e.key.keysym.sym) {
 				case SDLK_w:
+				{
 					AudioManager::getInstance()->playSound("blast", 0);
-					player->move(0, -5);
+
+					Message* message = new Message(player, "Up Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
+				}
 				case SDLK_d:
+				{
 					AudioManager::getInstance()->playSound("pew", 0);
-					player->move(5, 0);
+
+					Message* message = new Message(player, "Right Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
+				}
 				case SDLK_s:
-					player->move(0, 5);
+				{
+					Message* message = new Message(player, "Down Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
+				}
 				case SDLK_a:
-					player->move(-5, 0);
+				{
+					Message* message = new Message(player, "Left Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
+				}
 				}
 			}
 		}
@@ -105,6 +123,7 @@ bool Game::load(std::string filename) {
 	std::cout << "    currX: " << root["player"]["currX"].asDouble() << std::endl;
 	std::cout << "    currY: " << root["player"]["currY"].asDouble() << std::endl;
 	std::cout << "    sequence: " << root["player"]["sequence"].asString() << std::endl;
+
 	for (int i = 0; i < root["sprites"].size(); i++) {
 		std::cout << "Sprite-" << i << std::endl;
 		std::cout << "    filename: " << root["sprites"][i]["filename"].asString() << std::endl;
@@ -114,6 +133,7 @@ bool Game::load(std::string filename) {
 	}
 
 	std::vector<std::pair<Sprite*, Sequence>> sprites = {};
+	
 	for (int i = 0; i < root["sprites"].size(); i++) {
 		Sprite* sprite = new Sprite(root["sprites"][i]["currX"].asDouble(), root["sprites"][i]["currY"].asDouble(), "assets\\" + root["sprites"][i]["filename"].asString(), renderer);
 		Sequence sequence = std::make_pair(root["sprites"][i]["sequence"].asString(), root["sprites"][i]["sequence"].asString());
