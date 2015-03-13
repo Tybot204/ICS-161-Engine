@@ -16,6 +16,7 @@
 #include "../Player/Player.h"
 #include "../Collision/Collision.h"
 #include "../Audio/AudioManager.h"
+#include "../Message/Message.h"
 
 // Engine-wide constants
 const int SCREEN_WIDTH = 640;

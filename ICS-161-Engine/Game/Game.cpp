@@ -31,6 +31,8 @@ void Game::start() {
 	AudioManager::getInstance()->loadSound("blast", resPath + "blast.wav");
 	AudioManager::getInstance()->loadSound("pew", resPath + "Mega_Man_II_Sound_Effects_-_Arm_Cannon.wav");
 
+	std::vector<Message*> messageVector;
+	Message* message;
 	SDL_Event e;
 	bool quit = false;
 	while (!quit) {
@@ -41,17 +43,25 @@ void Game::start() {
 				switch (e.key.keysym.sym) {
 				case SDLK_w:
 					AudioManager::getInstance()->playSound("blast", 0);
-					player->move(0, -5);
+					message = new Message(player, "Up Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
 				case SDLK_d:
 					AudioManager::getInstance()->playSound("pew", 0);
-					player->move(5, 0);
+					message = new Message(player, "Right Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
 				case SDLK_s:
-					player->move(0, 5);
+					message = new Message(player, "Down Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
 				case SDLK_a:
-					player->move(-5, 0);
+					message = new Message(player, "Left Movement");
+					messageVector.push_back(message);
+					message->execute();
 					break;
 				}
 			}

@@ -79,6 +79,7 @@
     <ClCompile Include="Json\jsoncpp.cpp" />
     <ClCompile Include="Level\Level.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Message\Message.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Sprite\Sprite.cpp" />
   </ItemGroup>
@@ -90,6 +91,7 @@
     <ClInclude Include="Json\json-forwards.h" />
     <ClInclude Include="Json\json.h" />
     <ClInclude Include="Level\Level.h" />
+    <ClInclude Include="Message\Message.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Sprite\Sprite.h" />
   </ItemGroup>
